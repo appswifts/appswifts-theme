@@ -20,7 +20,7 @@ get_header();
 
   <div class="wrap hero__grid hero__grid--under">
     <div>
-      <p class="lead" style="font-size:var(--t-xl);max-width:44ch">
+      <p class="lead" style="font-size:var(--t-lg);max-width:46ch">
         <?php esc_html_e('We set up a private AI workspace around your business. It drafts your quotes and posts, answers customers on WhatsApp, and reads the contracts and tenders you never have time for. Takes about a week.', 'appswifts'); ?>
       </p>
 

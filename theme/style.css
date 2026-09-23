@@ -56,7 +56,11 @@ Text Domain: appswifts
   --t-lg:   clamp(1.15rem,.08vw + 1rem,  1.3rem);
   --t-xl:   clamp(1.5rem, 1.2rem + 1.1vw,  2.1rem);
   --t-2xl:  clamp(2.15rem,1.5rem + 2.4vw,  3.4rem);
-  --t-3xl:  clamp(2.8rem, 1.7rem + 4.0vw,  4.9rem);
+  /* Interior H1. Google Labs sets display type at 80-120px with the section
+     headings below it a fraction of the size, so the jump between hero and body
+     is what reads as "big". Homepage hero is 104px; interior pages sit one step
+     under at 96px so the homepage still owns the biggest line on the site. */
+  --t-3xl:  clamp(2.9rem, 1.6rem + 5.4vw,  6rem);
   --t-4xl:  clamp(3rem,   1.7rem + 4.6vw,  5.25rem);
 
   /* space */
@@ -119,11 +123,17 @@ body{
 }
 /* Headings: weight 600 not 700 — VoltAgent/Supabase both build hierarchy from
    SIZE, not weight. Compressed line-height (1.06) is the typographic signature. */
+/* Weight is for hierarchy, not emphasis. Google Labs sets display type at
+   weight 400-500 and never goes bold — the size carries the importance. Applied
+   to h1/h2, which are display scale here. h3/h4 stay at 600: they sit inside
+   cards at 33px next to 17px body copy, where the smaller size needs the weight
+   to stay a heading. Small headings keep weight, big ones drop it. */
 h1,h2,h3,h4,h5,h6{
   margin:0 0 var(--s-4); color:var(--ink);
   font-family:var(--font-display); font-weight:600;
   line-height:1.08; letter-spacing:-.01em; text-wrap:balance;
 }
+h1,h2{font-weight:500}
 /* Letter-spacing is the single biggest giveaway of hand-set type. Google Labs
    runs -1px at 80px (i.e. -1.25%) and -0.26px at 26px (-1%), holding the ratio
    near -1% at every size instead of tightening as type grows. Ours was -3.8% on
@@ -546,11 +556,16 @@ img.custom-logo{
 .post-card h3 a{color:var(--ink); text-decoration:none}
 .post-card h3 a:hover{color:var(--brand-ink)}
 .post-card time{font-size:var(--t-xs); color:var(--muted); text-transform:uppercase; letter-spacing:.06em}
-.page-hero{background:var(--ink); color:#b7c0ad; padding-block:clamp(2.5rem,2rem + 4vw,5rem)}
+/* Interior pages open on the same near-black band as the homepage hero, so the
+   site keeps one frame: dark above, dark below, bright content between.
+   Wider where a display heading lives, so 96px type gets the room to be 96px. */
+.page-hero{background:var(--ink); color:#b7c0ad; padding-block:clamp(3.5rem,2.4rem + 5vw,7rem)}
 /* interior pages get the 3xl step, so the homepage headline stays the biggest
    thing on the site */
-.page-hero h1{color:#fff; margin-bottom:var(--s-3); font-size:var(--t-3xl)}
-.page-hero p{color:#a9b49f; max-width:60ch}
+.page-hero h1{color:#fff; margin-bottom:var(--s-4); font-size:var(--t-3xl);
+  letter-spacing:-.015em; line-height:1.04}
+.page-hero p{color:#a9b49f; max-width:60ch; font-size:var(--t-lg)}
+.page-hero .wrap{max-width:var(--maxw-wide)}
 .pagination{display:flex;gap:var(--s-3);justify-content:center;margin-top:var(--s-7)}
 .alignwide{max-width:1320px;margin-inline:auto}
 .wp-block-image figcaption{font-size:var(--t-xs);color:var(--muted);text-align:center;margin-top:var(--s-2)}
