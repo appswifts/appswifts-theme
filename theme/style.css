@@ -187,6 +187,21 @@ hr{border:0;border-top:1px solid var(--line);margin:var(--s-7) 0}
 .grid--4{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
 .center{text-align:center; margin-inline:auto; max-width:62ch}
 .lead{font-size:var(--t-lg); color:var(--body); max-width:60ch}
+
+/* Section header + description, centred.
+   This replaced five hand-written inline `style="max-width:46rem;…"` heads and
+   two component-specific variants (.int__head, .map__head) that all did the
+   same job with slightly different numbers. One class means one place to change.
+   The measure is tightened because centred text needs a shorter line than
+   left-aligned text to stay readable. */
+.section__head{
+  max-width:46rem;
+  margin-inline:auto;
+  margin-bottom:var(--s-7);
+  text-align:center;
+}
+.section__head .lead{margin-inline:auto; max-width:54ch}
+.section__head .btn-row{justify-content:center}
 .muted{color:var(--muted)}
 .small{font-size:var(--t-sm)}
 .measure{max-width:68ch}
@@ -377,6 +392,20 @@ img.custom-logo{
 .hero__grid{display:grid; gap:clamp(2rem,5vw,4.5rem); grid-template-columns:1fr; align-items:center}
 @media (min-width:980px){ .hero__grid{grid-template-columns:1.15fr .85fr} }
 
+/* The hero is centred: headline, lede, buttons and the trust row all sit on the
+   page's centre axis, and the product card drops below them. It was a two-column
+   text-left split. Centring needed the card out of the second column — a centred
+   paragraph beside a card just reads as a mistake. */
+.hero__display{text-align:center}
+.hero__title--display{margin-inline:auto; text-wrap:balance}
+.hero__intro{text-align:center}
+.hero__intro .lead{margin-inline:auto; max-width:54ch}
+.hero__intro .btn-row{justify-content:center; margin-top:var(--s-5)}
+.hero__intro .trust{justify-content:center; text-align:center}
+@media (min-width:980px){ .hero__grid--under{grid-template-columns:1fr; gap:clamp(2.5rem,3vw,3.5rem)} }
+/* The card is narrow when stacked, so it does not stretch to 1376px. */
+.hero__grid--under .terminal{max-width:640px; margin-inline:auto; width:100%}
+
 /* Full-width display headline above the two-column body. Google Labs sets its
    display type at 120px across 1232px; the equivalent here is the headline
    owning the whole container and the supporting copy sitting under it. */
@@ -387,15 +416,6 @@ img.custom-logo{
   letter-spacing:-.015em;
   max-width:24ch;
 }
-/* Section internals: two columns where the left is prose and the right is a
-   list or a figure. Distinct from .hero__grid (which is tuned for a display
-   headline), so a content section does not inherit hero sizing. */
-.split{display:grid; gap:clamp(2rem,4vw,3.5rem); grid-template-columns:1fr; align-items:start}
-@media (min-width:900px){ .split{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)} }
-/* On the ink bands the prose switches palette without inline styles. */
-.section--dark .split h2{color:#fff}
-.section--dark .split .lead{color:#a9b49f}
-.section--dark h2{color:#fff}
 /* The note is shared by the cream integrations band and this dark band. Its
    light-band palette (#6d7668 on cream) drops to 3.95:1 here — a WCAG fail —
    so the dark band recolours it rather than the note carrying two palettes. */
@@ -524,15 +544,25 @@ img.custom-logo{
 /* Service block: one lead card beside a hairline-ruled list. Two shapes instead
    of the same card twelve times, so each service has an obvious entry point. */
 .service{display:grid; gap:var(--s-6); grid-template-columns:1fr; align-items:start}
-@media(min-width:900px){ .service{grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); gap:var(--s-8)} }
+/* Each service's header is centred and its detail list runs underneath, on the
+   same centre axis as every other section header. It was a two-column split, and
+   a centred header cannot sit beside a column without looking misaligned. */
+.service__lead{text-align:center; max-width:46rem; margin-inline:auto}
 .service__lead h2{margin-bottom:var(--s-3); text-wrap:balance}
-.service__lead .lead{margin-bottom:var(--s-4)}
+.service__lead .lead{margin-bottom:var(--s-4); margin-inline:auto; max-width:54ch}
 .service__link{font-weight:500; color:var(--brand-ink); text-decoration:none;
   border-bottom:1px solid color-mix(in srgb,var(--brand) 40%,transparent); padding-bottom:2px}
 .service__link:hover{border-bottom-color:var(--brand)}
-.service__items{list-style:none; margin:0; padding:0; border-top:1px solid var(--line)}
+.service__items{list-style:none; margin:0; padding:0; border-top:1px solid var(--line);
+  max-width:56rem; margin-inline:auto; width:100%}
 .service__items li{padding-block:var(--s-5); border-bottom:1px solid var(--line)}
 .service__items h3{font-size:var(--t-xl); margin-bottom:var(--s-2)}
+
+/* Two content columns under a centred header. Distinct from .hero__grid, which
+   is sized for a display headline — a content section should not inherit hero
+   type. Under a centred head the two columns stay balanced at 1fr each. */
+.split-cards{display:grid; gap:clamp(1.75rem,3vw,2.75rem); grid-template-columns:1fr}
+@media (min-width:900px){ .split-cards{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} }
 
 /* ==========================================================================
    MAP — "One team in Kigali"
@@ -543,7 +573,6 @@ img.custom-logo{
    Colour comes from `color` on .map, so on the ink band it is one line:
    `.section--dark .map{color:var(--brand)}` — nothing else needs to change.
    ========================================================================== */
-.map__head{max-width:46rem; margin-bottom:var(--s-7)}
 .map{
   position:relative;
   /* Locked to the dot SVG's own 800x330. The mask below stretches to the
@@ -635,7 +664,6 @@ img.custom-logo{
    texture; the one you are pointing at reads as a logo. That is the whole
    interaction — no lift, no shadow.
    ========================================================================== */
-.int__head{max-width:46rem; margin-bottom:var(--s-7)}
 .int__grid{
   list-style:none; margin:0 0 var(--s-5); padding:0;
   display:grid; gap:var(--s-3);
@@ -775,7 +803,11 @@ img.custom-logo{
    9. PROCESS / STEPS
    ========================================================================== */
 .steps{counter-reset:step; list-style:none; padding:0; margin:0; display:grid; gap:0;
-  border-top:1px solid var(--line)}
+  border-top:1px solid var(--line);
+  /* Both rails now sit under a centred header, so the rail is held to a readable
+     measure on the same centre axis. At full container width the 56ch copy ended
+     up stranded against the left edge with dead space to its right. */
+  max-width:48rem; margin-inline:auto}
 /* Vertical rail. The number is a grid cell, not an absolutely positioned badge:
    the old layout dropped the counter box on top of the heading it belongs to
    (4px overlap at 1440px) because the item column was wider than the item. */
@@ -889,12 +921,16 @@ img.custom-logo{
 /* Interior pages open on the same near-black band as the homepage hero, so the
    site keeps one frame: dark above, dark below, bright content between.
    Wider where a display heading lives, so 96px type gets the room to be 96px. */
-.page-hero{background:var(--ink); color:#b7c0ad; padding-block:clamp(3.5rem,2.4rem + 5vw,7rem)}
+.page-hero{background:var(--ink); color:#b7c0ad; padding-block:clamp(3.5rem,2.4rem + 5vw,7rem); text-align:center}
 /* interior pages get the 3xl step, so the homepage headline stays the biggest
    thing on the site */
 .page-hero h1{color:#fff; margin-bottom:var(--s-4); font-size:var(--t-3xl);
-  letter-spacing:-.015em; line-height:1.04}
-.page-hero p{color:#a9b49f; max-width:60ch; font-size:var(--t-lg)}
+  letter-spacing:-.015em; line-height:1.04; margin-inline:auto; max-width:22ch}
+.page-hero p{color:#a9b49f; max-width:56ch; font-size:var(--t-lg); margin-inline:auto}
+.page-hero .btn-row{justify-content:center}
+/* Post date. Was an inline uppercase + 0.08em tracking label in the hero, which
+   read as a generated "eyebrow" chip. Sentence case, body face. */
+.post-date{display:block; font-size:var(--t-sm); letter-spacing:0; color:var(--brand); margin-bottom:var(--s-3)}
 .page-hero .wrap{max-width:var(--maxw-wide)}
 .pagination{display:flex;gap:var(--s-3);justify-content:center;margin-top:var(--s-7)}
 .alignwide{max-width:1320px;margin-inline:auto}

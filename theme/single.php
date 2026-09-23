@@ -12,8 +12,7 @@ while (have_posts()) :
     <header class="page-hero">
       <div class="wrap">
         <?php if ($is_post) : ?>
-          <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"
-                style="display:block;font-size:var(--t-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:var(--s-3)">
+          <time class="post-date" datetime="<?php echo esc_attr(get_the_date('c')); ?>">
             <?php echo esc_html(get_the_date()); ?>
           </time>
         <?php endif; ?>

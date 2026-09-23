@@ -18,7 +18,7 @@ get_header();
   </div>
 
   <div class="wrap hero__grid hero__grid--under">
-    <div>
+    <div class="hero__intro">
       <p class="lead" style="font-size:var(--t-lg);max-width:46ch">
         <?php esc_html_e('We set up a private AI workspace around your business. It drafts your quotes and posts, answers customers on WhatsApp, and reads the contracts and tenders you never have time for. Takes about a week.', 'appswifts'); ?>
       </p>
@@ -76,7 +76,7 @@ $appswifts_integrations = [
 ?>
 <section class="section section--cream">
   <div class="wrap">
-    <div class="int__head">
+    <div class="section__head">
       <h2><?php esc_html_e('It works inside the tools you already run', 'appswifts'); ?></h2>
       <p class="lead"><?php esc_html_e('No migration, no new app to learn. Swifts AI plugs into what your team opens every morning — and sends work back where people already look.', 'appswifts'); ?></p>
     </div>
@@ -119,7 +119,7 @@ $appswifts_integrations = [
 ?>
 <section class="section section--dark">
   <div class="wrap">
-    <div class="int__head">
+    <div class="section__head">
       <h2><?php esc_html_e('It works through your site, your CMS and your inbox', 'appswifts'); ?></h2>
       <p class="lead"><?php esc_html_e('Nobody has to learn another app. Swifts AI reaches into the tools you already run, and the work comes back to where you already look for it.', 'appswifts'); ?></p>
     </div>
@@ -191,7 +191,7 @@ $appswifts_integrations = [
 
 <section class="section">
   <div class="wrap">
-    <div style="max-width:46rem;margin-bottom:var(--s-7)">
+    <div class="section__head">
       <h2><?php esc_html_e('What you can hand to it on day one', 'appswifts'); ?></h2>
       <p class="lead"><?php esc_html_e('Most of the time your team loses goes on work that follows the same pattern every single time. That part is worth automating.', 'appswifts'); ?></p>
     </div>
@@ -240,51 +240,49 @@ $appswifts_integrations = [
 
 <section class="section section--dark">
   <div class="wrap">
-    <div class="split">
-
-      <div>
-        <h2><?php esc_html_e('The licence is the easy part. Getting it working is the job.', 'appswifts'); ?></h2>
-        <p class="lead">
-          <?php esc_html_e('AI subscriptions are easy to buy. Making one useful in a business with real customers, real prices and staff who are already stretched is where people get stuck. That is the part we do. We sit with your team, put your documents and prices in, and keep adjusting it until it is genuinely saving hours.', 'appswifts'); ?>
-        </p>
-        <div class="btn-row">
-          <a class="btn btn--primary" href="<?php echo esc_url(home_url('/contact/')); ?>"><?php esc_html_e('Book a free demo', 'appswifts'); ?></a>
-          <a class="btn btn--on-dark" href="<?php echo esc_url(home_url('/pricing/')); ?>"><?php esc_html_e('See pricing', 'appswifts'); ?></a>
-        </div>
+    <div class="section__head">
+      <h2><?php esc_html_e('The licence is the easy part. Getting it working is the job.', 'appswifts'); ?></h2>
+      <p class="lead">
+        <?php esc_html_e('AI subscriptions are easy to buy. Making one useful in a business with real customers, real prices and staff who are already stretched is where people get stuck. That is the part we do. We sit with your team, put your documents and prices in, and keep adjusting it until it is genuinely saving hours.', 'appswifts'); ?>
+      </p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="<?php echo esc_url(home_url('/contact/')); ?>"><?php esc_html_e('Book a free demo', 'appswifts'); ?></a>
+        <a class="btn btn--on-dark" href="<?php echo esc_url(home_url('/pricing/')); ?>"><?php esc_html_e('See pricing', 'appswifts'); ?></a>
       </div>
-
-      <?php
-      // Numbered rail. It was a 4-across grid inside a 0.85fr column, so at
-      // 1440px each item collapsed to a 444px single column and the numbers were
-      // absolutely positioned over the heading text — the 36px counter box
-      // overlapped the h3 by 4px. Now the number is a real grid cell, so overlap
-      // is structurally impossible, and the list is a vertical rail with hairline
-      // rules: readable at any width inside the narrow column.
-      $steps = [
-        ['Demo', 'Bring one real task you do every week. We run it live on your own material.'],
-        ['Setup', 'We build your private workspace and load your documents, prices and tone.'],
-        ['Train your team', 'Two weeks of guided use. We adjust as your team finds what works for them.'],
-        ['Monthly review', 'Hours saved, and what to automate next. Cancel any time if it is not paying for itself.'],
-      ];
-      ?>
-      <ol class="steps steps--dark">
-        <?php foreach ($steps as [$title, $desc]) : ?>
-          <li>
-            <div>
-              <h3><?php echo esc_html($title); ?></h3>
-              <p><?php echo esc_html($desc); ?></p>
-            </div>
-          </li>
-        <?php endforeach; ?>
-      </ol>
-
     </div>
+
+    <?php
+    // Numbered rail. It was a 4-across grid inside a 0.85fr column, so at
+    // 1440px each item collapsed to a 444px single column and the numbers were
+    // absolutely positioned over the heading text — the 36px counter box
+    // overlapped the h3 by 4px. Now the number is a real grid cell, so overlap
+    // is structurally impossible, and the list is a vertical rail with hairline
+    // rules. It sits under the centred header rather than beside it, so the
+    // header can be centred without a card sitting off-axis next to it.
+    $steps = [
+      ['Demo', 'Bring one real task you do every week. We run it live on your own material.'],
+      ['Setup', 'We build your private workspace and load your documents, prices and tone.'],
+      ['Train your team', 'Two weeks of guided use. We adjust as your team finds what works for them.'],
+      ['Monthly review', 'Hours saved, and what to automate next. Cancel any time if it is not paying for itself.'],
+    ];
+    ?>
+    <ol class="steps steps--dark">
+      <?php foreach ($steps as [$title, $desc]) : ?>
+        <li>
+          <div>
+            <h3><?php echo esc_html($title); ?></h3>
+            <p><?php echo esc_html($desc); ?></p>
+          </div>
+        </li>
+      <?php endforeach; ?>
+    </ol>
+
   </div>
 </section>
 
 <section class="section section--bg">
   <div class="wrap">
-    <div style="max-width:42rem;margin-bottom:var(--s-7)">
+    <div class="section__head">
       <h2><?php esc_html_e('Who gets the most out of it', 'appswifts'); ?></h2>
     </div>
 
@@ -308,7 +306,7 @@ $appswifts_integrations = [
 
 <section class="section section--cream">
   <div class="wrap">
-    <div style="max-width:46rem;margin-bottom:var(--s-6)">
+    <div class="section__head">
       <h2><?php esc_html_e('Everything else your business needs online', 'appswifts'); ?></h2>
       <p class="lead"><?php esc_html_e('AI works better when the website underneath it is any good. We do that part too.', 'appswifts'); ?></p>
     </div>
@@ -351,7 +349,7 @@ get_template_part('inc/world-map');
 
 <section class="section section--cream">
   <div class="wrap">
-    <div style="max-width:46rem;margin-bottom:var(--s-6)">
+    <div class="section__head">
       <h2><?php esc_html_e('Built for businesses here and abroad', 'appswifts'); ?></h2>
       <p class="lead"><?php
         printf(
@@ -379,7 +377,7 @@ if ($recent) :
 ?>
 <section class="section section--bg">
   <div class="wrap">
-    <div style="max-width:42rem;margin-bottom:var(--s-6)">
+    <div class="section__head">
       <h2><?php esc_html_e('From the blog', 'appswifts'); ?></h2>
     </div>
     <div class="grid grid--3">

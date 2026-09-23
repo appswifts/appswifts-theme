@@ -86,10 +86,10 @@ $plans = [
         <?php endforeach; ?>
       </div>
 
-      <div class="center" style="margin-top:var(--s-8)">
+      <div class="section__head" style="margin-top:var(--s-8)">
         <h2><?php esc_html_e('What comes with every plan', 'appswifts'); ?></h2>
         <p class="lead"><?php esc_html_e('SSL, daily backups and monitoring, whichever plan you pick. Plus a real person to call when something goes wrong.', 'appswifts'); ?></p>
-        <div class="btn-row" style="justify-content:center">
+        <div class="btn-row">
           <a class="btn btn--ghost" href="<?php echo esc_url(home_url('/services/')); ?>"><?php esc_html_e('Compare the services in detail', 'appswifts'); ?></a>
           <a class="btn btn--ghost" href="https://wa.me/250781965789" rel="noopener"><?php esc_html_e('Ask us a question', 'appswifts'); ?></a>
         </div>

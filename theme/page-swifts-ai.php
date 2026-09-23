@@ -6,7 +6,7 @@
 get_header();
 
 $features = [
-    ['spark',    __('Knows your business', 'appswifts'), __('Give it your documents, prices and the way you actually talk. After that it writes and replies like someone who works there.', 'appswifts')],
+    ['doc',      __('Knows your business', 'appswifts'), __('Give it your documents, prices and the way you actually talk. After that it writes and replies like someone who works there.', 'appswifts')],
     ['shield',   __('Private by design', 'appswifts'),   __('Each client gets an isolated workspace. Your data does not train anyone else\'s model. Export it or delete it whenever you want.', 'appswifts')],
     ['code',     __('Fits how you already work', 'appswifts'), __('It connects to WhatsApp, your email, your calendar and that CRM you keep meaning to tidy up. Your team stays where it is.', 'appswifts')],
     ['trending', __('Measured in results', 'appswifts'),  __('Hours saved, replies sent, documents processed. We send you the numbers every month so you can decide whether it is earning its keep.', 'appswifts')],
@@ -34,7 +34,7 @@ $uses = [
 
   <div class="section">
     <div class="wrap">
-      <div class="center" style="margin-bottom:var(--s-7)">
+      <div class="section__head">
         <h2><?php esc_html_e('Where it beats a generic chatbot', 'appswifts'); ?></h2>
         <p class="lead"><?php esc_html_e('A free chatbot knows nothing about your prices, your rooms or your policies. Swifts AI is configured for your business by people you can phone.', 'appswifts'); ?></p>
       </div>
@@ -52,9 +52,11 @@ $uses = [
 
   <section class="section section--bg">
     <div class="wrap">
-      <div class="hero__grid">
+      <div class="section__head">
+        <h2><?php esc_html_e('What clients hand over first', 'appswifts'); ?></h2>
+      </div>
+      <div class="split-cards">
         <div>
-          <h2><?php esc_html_e('What clients hand over first', 'appswifts'); ?></h2>
           <ul class="stack" style="list-style:none;padding:0">
             <?php foreach ($uses as $u) : ?>
               <li style="display:flex;gap:.7em;align-items:flex-start">
