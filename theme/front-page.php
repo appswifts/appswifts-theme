@@ -99,12 +99,12 @@ get_header();
 
 <section class="section section--dark">
   <div class="wrap">
-    <div class="hero__grid">
+    <div class="split">
 
       <div>
         <span class="eyebrow"><?php esc_html_e('Why us', 'appswifts'); ?></span>
-        <h2 style="color:#fff"><?php esc_html_e('The licence is the easy part. Getting it working is the job.', 'appswifts'); ?></h2>
-        <p class="lead" style="color:#a9b49f">
+        <h2><?php esc_html_e('The licence is the easy part. Getting it working is the job.', 'appswifts'); ?></h2>
+        <p class="lead">
           <?php esc_html_e('AI subscriptions are easy to buy. Making one useful in a business with real customers, real prices and staff who are already stretched is where people get stuck. That is the part we do. We sit with your team, put your documents and prices in, and keep adjusting it until it is genuinely saving hours.', 'appswifts'); ?>
         </p>
         <div class="btn-row">
@@ -113,23 +113,29 @@ get_header();
         </div>
       </div>
 
+      <?php
+      // Numbered rail. It was a 4-across grid inside a 0.85fr column, so at
+      // 1440px each item collapsed to a 444px single column and the numbers were
+      // absolutely positioned over the heading text — the 36px counter box
+      // overlapped the h3 by 4px. Now the number is a real grid cell, so overlap
+      // is structurally impossible, and the list is a vertical rail with hairline
+      // rules: readable at any width inside the narrow column.
+      $steps = [
+        ['Demo', 'Bring one real task you do every week. We run it live on your own material.'],
+        ['Setup', 'We build your private workspace and load your documents, prices and tone.'],
+        ['Train your team', 'Two weeks of guided use. We adjust as your team finds what works for them.'],
+        ['Monthly review', 'Hours saved, and what to automate next. Cancel any time if it is not paying for itself.'],
+      ];
+      ?>
       <ol class="steps steps--dark">
-        <li>
-          <h3 style="color:#fff"><?php esc_html_e('Demo', 'appswifts'); ?></h3>
-          <p style="color:#a9b49f"><?php esc_html_e('Bring one real task you do every week. We run it live on your own material.', 'appswifts'); ?></p>
-        </li>
-        <li>
-          <h3 style="color:#fff"><?php esc_html_e('Setup', 'appswifts'); ?></h3>
-          <p style="color:#a9b49f"><?php esc_html_e('We build your private workspace and load your documents, prices and tone.', 'appswifts'); ?></p>
-        </li>
-        <li>
-          <h3 style="color:#fff"><?php esc_html_e('Train your team', 'appswifts'); ?></h3>
-          <p style="color:#a9b49f"><?php esc_html_e('Two weeks of guided use. We adjust as your team finds what works for them.', 'appswifts'); ?></p>
-        </li>
-        <li>
-          <h3 style="color:#fff"><?php esc_html_e('Monthly review', 'appswifts'); ?></h3>
-          <p style="color:#a9b49f"><?php esc_html_e('Hours saved, and what to automate next. Cancel any time if it is not paying for itself.', 'appswifts'); ?></p>
-        </li>
+        <?php foreach ($steps as [$title, $desc]) : ?>
+          <li>
+            <div>
+              <h3><?php echo esc_html($title); ?></h3>
+              <p><?php echo esc_html($desc); ?></p>
+            </div>
+          </li>
+        <?php endforeach; ?>
       </ol>
 
     </div>

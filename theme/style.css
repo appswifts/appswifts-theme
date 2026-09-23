@@ -187,14 +187,22 @@ hr{border:0;border-top:1px solid var(--line);margin:var(--s-7) 0}
 .grid--3{grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr))}
 .grid--4{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
 .center{text-align:center; margin-inline:auto; max-width:62ch}
-/* Eyebrow = the "technical label" voice. Monospace + wide tracking reads as a
-   system marker rather than decoration (VoltAgent: uppercase is earned, and
-   always generously spaced). */
+/* Eyebrow = a plain sentence-case label in the body face. No monospace, no
+   uppercase, no wide tracking — that combination is the generated-chip look. */
+/* Section label. Was monospace, uppercase, 0.14em tracking — the classic
+   generated "eyebrow" chip. Sentence case in the body face reads as a real
+   label: quieter, and it stops competing with the heading underneath. */
 .eyebrow{
-  display:inline-block; font-family:var(--font-mono);
-  font-size:var(--t-xs); font-weight:500;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--brand-ink);
-  margin-bottom:var(--s-4);
+  display:inline-block; font-family:var(--font-body);
+  font-size:var(--t-sm); font-weight:500;
+  letter-spacing:0; color:var(--brand-ink);
+  margin-bottom:var(--s-3);
+  display:flex; align-items:center; gap:.6em;
+}
+/* A short brand dash replaces the uppercase styling as the marker. */
+.eyebrow::before{
+  content:""; width:18px; height:2px; background:currentColor;
+  flex:none; opacity:.55;
 }
 .lead{font-size:var(--t-lg); color:var(--body); max-width:60ch}
 .muted{color:var(--muted)}
@@ -389,14 +397,21 @@ img.custom-logo{
   max-width:24ch;
 }
 .hero .eyebrow{color:var(--brand)}
+/* Section internals: two columns where the left is prose and the right is a
+   list or a figure. Distinct from .hero__grid (which is tuned for a display
+   headline), so a content section does not inherit hero sizing. */
+.split{display:grid; gap:clamp(2rem,4vw,3.5rem); grid-template-columns:1fr; align-items:start}
+@media (min-width:900px){ .split{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)} }
+/* On the ink bands the prose switches palette without inline styles. */
+.section--dark .split h2{color:#fff}
+.section--dark .split .lead{color:#a9b49f}
+.section--dark h2{color:#fff}
 .trust{display:flex; flex-wrap:wrap; gap:var(--s-5) var(--s-6); margin-top:var(--s-7);
   padding-top:var(--s-5); border-top:1px solid rgba(255,255,255,.14); list-style:none; padding-left:0}
 .trust li{font-size:var(--t-sm); color:#98a48e}
 .trust strong{display:block; font-family:var(--font-display); font-size:var(--t-xl); color:#fff; line-height:1.15}
 
-/* steps on the dark band */
-.steps--dark{grid-template-columns:1fr; gap:var(--s-5)}
-.steps--dark li::before{background:rgba(134,193,59,.18); color:var(--brand)}
+/* steps on the dark band: palette overrides live with the .steps rules above */
 
 /* terminal-style product card in the hero — VoltAgent: the product IS the hero */
 .terminal{
@@ -530,20 +545,32 @@ img.custom-logo{
 /* ==========================================================================
    9. PROCESS / STEPS
    ========================================================================== */
-.steps{counter-reset:step; list-style:none; padding:0; margin:0; display:grid; gap:var(--s-5)}
-@media (min-width:760px){ .steps{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))} }
-.steps li{counter-increment:step; position:relative; padding-top:var(--s-6)}
-/* Numbered counters: hairline-ringed, mono — reads as an ordered system. */
+.steps{counter-reset:step; list-style:none; padding:0; margin:0; display:grid; gap:0;
+  border-top:1px solid var(--line)}
+/* Vertical rail. The number is a grid cell, not an absolutely positioned badge:
+   the old layout dropped the counter box on top of the heading it belongs to
+   (4px overlap at 1440px) because the item column was wider than the item. */
+.steps li{
+  counter-increment:step; position:relative;
+  display:grid; grid-template-columns:44px 1fr; gap:var(--s-4);
+  align-items:start; padding-block:var(--s-5);
+  border-bottom:1px solid var(--line);
+}
 .steps li::before{
   content:counter(step,decimal-leading-zero);
-  font-family:var(--font-mono); font-size:var(--t-xs); font-weight:500;
-  color:var(--brand-ink); background:var(--brand-soft);
-  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--brand) 30%,transparent);
-  position:absolute; top:0; left:0;
-  width:36px;height:36px;border-radius:var(--radius-sm); display:grid; place-items:center;
+  font-family:var(--font-display); font-size:var(--t-lg); font-weight:500;
+  letter-spacing:-.02em; line-height:1.1;
+  color:var(--brand-ink); font-variant-numeric:tabular-nums;
+  padding-top:.1em;
 }
-.steps h3{font-size:var(--t-lg)}
-.steps p{font-size:var(--t-sm); line-height:1.62}
+.steps h3{font-size:var(--t-lg); margin-bottom:var(--s-2)}
+.steps p{font-size:var(--t-sm); line-height:1.62; margin:0; max-width:56ch}
+/* On the ink band the rail rules and figures need the dark palette. */
+.steps--dark{border-top-color:var(--line-dark)}
+.steps--dark li{border-bottom-color:var(--line-dark)}
+.steps--dark li::before{color:var(--brand)}
+.steps--dark h3{color:#fff}
+.steps--dark p{color:#a9b49f}
 
 /* ==========================================================================
    10. LOGO / PROOF STRIP
@@ -575,9 +602,9 @@ img.custom-logo{
   border-top:1px solid var(--line-dark);
 }
 .site-footer h4{
-  color:#fff; font-family:var(--font-mono);
-  font-size:var(--t-xs); font-weight:500; letter-spacing:.12em;
-  text-transform:uppercase; margin-bottom:var(--s-4);
+  color:#fff; font-family:var(--font-body);
+  font-size:var(--t-sm); font-weight:600; letter-spacing:0;
+  margin-bottom:var(--s-4);
 }
 .site-footer a{color:#b7c0ad; text-decoration:none}
 .site-footer a:hover{color:var(--brand); text-decoration:underline}
@@ -622,7 +649,7 @@ img.custom-logo{
 .post-card h3{font-size:var(--t-lg); margin:0}
 .post-card h3 a{color:var(--ink); text-decoration:none}
 .post-card h3 a:hover{color:var(--brand-ink)}
-.post-card time{font-size:var(--t-xs); color:var(--muted); text-transform:uppercase; letter-spacing:.06em}
+.post-card time{font-size:var(--t-xs); color:var(--muted)}
 /* Interior pages open on the same near-black band as the homepage hero, so the
    site keeps one frame: dark above, dark below, bright content between.
    Wider where a display heading lives, so 96px type gets the room to be 96px. */
@@ -647,8 +674,8 @@ img.custom-logo{
 .filter-bar{display:flex;flex-direction:column;gap:var(--s-4);margin-bottom:var(--s-7);
   padding-bottom:var(--s-5);border-bottom:1px solid var(--line)}
 .filter-bar__row{display:flex;gap:var(--s-4);align-items:baseline;flex-wrap:wrap}
-.filter-bar__label{font-family:var(--font-mono);font-size:var(--t-xs);text-transform:uppercase;
-  letter-spacing:.14em;color:var(--muted);flex:none;min-width:66px}
+.filter-bar__label{font-family:var(--font-body);font-size:var(--t-sm);font-weight:500;
+  letter-spacing:0;color:var(--muted);flex:none;min-width:66px}
 .pill-list{display:flex;flex-wrap:wrap;gap:var(--s-2);list-style:none;margin:0;padding:0}
 .pill{display:inline-flex;align-items:center;gap:.5em;
   padding:.34em .85em;border-radius:var(--radius-pill);border:1px solid var(--line);
@@ -681,8 +708,8 @@ img.custom-logo{
 .detail-list__row{display:grid;grid-template-columns:1fr;gap:var(--s-1);
   padding-bottom:var(--s-3);border-bottom:1px solid var(--line)}
 .detail-list__row:last-child{border-bottom:0;padding-bottom:0}
-.detail-list dt{font-family:var(--font-mono);font-size:var(--t-xs);text-transform:uppercase;
-  letter-spacing:.14em;color:var(--muted)}
+.detail-list dt{font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;
+  letter-spacing:.01em;color:var(--muted)}
 .detail-list dd{margin:0;color:var(--ink);font-weight:500}
 @media(min-width:640px){
   .detail-list__row{grid-template-columns:180px 1fr;align-items:baseline}
@@ -692,8 +719,8 @@ img.custom-logo{
    Elementor postmeta, which REST cannot see), so the card must not reserve
    media space it will never fill. */
 .post-card__cat{
-  font-family:var(--font-mono); font-size:var(--t-xs); font-weight:500;
-  letter-spacing:.06em; text-transform:uppercase;
+  font-family:var(--font-body); font-size:var(--t-xs); font-weight:500;
+  letter-spacing:0;
   color:var(--brand-ink); text-decoration:none; width:fit-content;
 }
 .post-card__cat:hover{ color:var(--brand-600) }
