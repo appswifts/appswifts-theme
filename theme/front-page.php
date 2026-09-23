@@ -8,10 +8,18 @@ get_header();
 ?>
 
 <section class="hero">
-  <div class="wrap hero__grid">
+  <?php
+  // Headline spans the full container, the way Google Labs sets its display type.
+  // In the old two-column grid the H1 only had ~600px, so an 84px font wrapped
+  // after three words and never read as 84px. Full width gives it ~1200px.
+  ?>
+  <div class="wrap wrap--wide hero__display">
+    <span class="eyebrow"><?php esc_html_e('Swifts AI · Built in Kigali, Rwanda', 'appswifts'); ?></span>
+    <h1 class="hero__title hero__title--display"><?php esc_html_e('Put AI to work in your business this week', 'appswifts'); ?></h1>
+  </div>
+
+  <div class="wrap hero__grid hero__grid--under">
     <div>
-      <span class="eyebrow"><?php esc_html_e('Swifts AI · Built in Kigali, Rwanda', 'appswifts'); ?></span>
-      <h1 class="hero__title"><?php esc_html_e('Put AI to work in your business this week', 'appswifts'); ?></h1>
       <p class="lead" style="font-size:var(--t-xl);max-width:44ch">
         <?php esc_html_e('We set up a private AI workspace around your business. It drafts your quotes and posts, answers customers on WhatsApp, and reads the contracts and tenders you never have time for. Takes about a week.', 'appswifts'); ?>
       </p>
@@ -153,7 +161,7 @@ get_header();
   </div>
 </section>
 
-<section class="section">
+<section class="section section--cream">
   <div class="wrap">
     <div style="max-width:46rem;margin-bottom:var(--s-6)">
       <span class="eyebrow"><?php esc_html_e('Also from AppSwifts', 'appswifts'); ?></span>
@@ -176,7 +184,7 @@ get_header();
 $projects = get_posts(['post_type' => 'work', 'numberposts' => 6, 'post_status' => 'publish']);
 if ($projects) :
 ?>
-<section class="section">
+<section class="section section--bg">
   <div class="wrap">
     <div style="max-width:46rem;margin-bottom:var(--s-6)">
       <span class="eyebrow"><?php esc_html_e('Selected work', 'appswifts'); ?></span>

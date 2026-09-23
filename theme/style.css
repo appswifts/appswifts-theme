@@ -32,6 +32,12 @@ Text Domain: appswifts
   --line:         #e6eae1;
   --surface:      #ffffff;
   --bg:           #fafbf8;
+  /* Warm stones. Google Labs alternates #ffffff with #F3EFEA and rules borders
+     in #E8DFD5. Warm surfaces read as considered; the green-tinted neutrals alone
+     read as default. Borders, not shadows, carry the depth. */
+  --cream:        #f3efea;
+  --cream-2:      #e8dfd5;
+  --line-warm:    #e8dfd5;
 
   /* type
      Display face: DM Sans — the closest openly-licensed match to Google Sans
@@ -57,10 +63,17 @@ Text Domain: appswifts
   --s-1:.25rem; --s-2:.5rem;  --s-3:.75rem; --s-4:1rem;
   --s-5:1.5rem; --s-6:2rem;   --s-7:3rem;   --s-8:4rem;
   --section: clamp(3.5rem, 2rem + 6vw, 7rem);
+  /* Wider than a normal 1180px text column on purpose: the display type is large
+     enough to fill 1280px, and a narrow wrap would push the headings back to
+     mid-size. Google Labs runs 1232px here. Pulled to 1200 so it fills a 1280
+     desktop while body copy still stays inside a readable measure. */
+  --wide: 1200px;
 
   /* shape + motion — radii capped at 12px for content (VoltAgent rule:
-     nothing between a 6px workhorse and a 999px pill on interactive elements) */
-  --radius:12px; --radius-sm:8px; --radius-lg:20px; --radius-pill:999px;
+     nothing between a 6px workhorse and a 999px pill on interactive elements).
+     Containers are the exception: Google Labs rounds cards to 24-26px, which
+     reads as soft rather than blocky. --radius-card is for boxes, not buttons. */
+  --radius:12px; --radius-sm:8px; --radius-lg:20px; --radius-card:24px; --radius-pill:999px;
   --shadow:    0 1px 2px rgba(14,20,10,.04), 0 6px 20px -10px rgba(14,20,10,.10);
   --shadow-lg: 0 2px 4px rgba(14,20,10,.05), 0 20px 48px -20px rgba(14,20,10,.18);
   --ease: cubic-bezier(.22,.61,.36,1);
@@ -109,12 +122,17 @@ body{
 h1,h2,h3,h4,h5,h6{
   margin:0 0 var(--s-4); color:var(--ink);
   font-family:var(--font-display); font-weight:600;
-  line-height:1.06; letter-spacing:-.025em; text-wrap:balance;
+  line-height:1.08; letter-spacing:-.01em; text-wrap:balance;
 }
-h1{font-size:var(--t-4xl); letter-spacing:-.038em; line-height:1.02}
-h2{font-size:var(--t-2xl); letter-spacing:-.03em}
-h3{font-size:var(--t-xl); letter-spacing:-.02em; line-height:1.15}
-h4{font-size:var(--t-lg); letter-spacing:-.012em; line-height:1.25}
+/* Letter-spacing is the single biggest giveaway of hand-set type. Google Labs
+   runs -1px at 80px (i.e. -1.25%) and -0.26px at 26px (-1%), holding the ratio
+   near -1% at every size instead of tightening as type grows. Ours was -3.8% on
+   h1, which is why the headings read cramped rather than confident. Rule: about
+   -1%, drifting only slightly tighter on the largest sizes. */
+h1{font-size:var(--t-4xl); letter-spacing:-.015em; line-height:1.03}
+h2{font-size:var(--t-2xl); letter-spacing:-.012em}
+h3{font-size:var(--t-xl); letter-spacing:-.01em; line-height:1.18}
+h4{font-size:var(--t-lg); letter-spacing:-.006em; line-height:1.3}
 p{margin:0 0 var(--s-4); text-wrap:pretty}
 a{color:var(--brand-ink); text-decoration-thickness:1px; text-underline-offset:3px}
 a:hover{color:var(--brand-600)}
@@ -130,9 +148,16 @@ hr{border:0;border-top:1px solid var(--line);margin:var(--s-7) 0}
    4. LAYOUT
    ========================================================================== */
 .wrap{width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:clamp(1rem,4vw,2rem)}
+/* Display sections breathe wider than the text column, so 84px headings have room
+   instead of wrapping at half a desktop. */
+.wrap--wide{max-width:var(--wide)}
 .section{padding-block:var(--section)}
 .section--tight{padding-block:clamp(2.5rem,2rem + 3vw,4.5rem)}
 .section--bg{background:var(--surface)}
+/* Alternating warm band. Paired with .section--bg this gives the page the
+   white / cream / white rhythm Google Labs uses, and lets a section be set apart
+   without a box, a shadow or a gradient. */
+.section--cream{background:var(--cream)}
 .section--soft{background:var(--brand-soft)}
 /* Dark bands: depth comes from a hairline border top/bottom, not a shadow.
    On near-black a shadow is invisible — the border IS the elevation. */
@@ -167,16 +192,21 @@ hr{border:0;border-top:1px solid var(--line);margin:var(--s-7) 0}
 /* ==========================================================================
    5. HEADER + NAV — plain CSS, no JS required
    ========================================================================== */
+/* Dark header over a light page, the way Google Labs does it: the header and
+   footer frame the page in near-black, the content stays bright. It also fixes
+   the logo — on white the lockup's white wordmark was invisible (1.00:1) and the
+   green failed at 2.16:1; on this ink they measure 18.70:1 and 8.64:1. */
 .site-header{
   position:sticky; top:0; z-index:100;
-  background:color-mix(in srgb, var(--surface) 88%, transparent);
+  background:color-mix(in srgb, var(--ink) 92%, transparent);
   backdrop-filter:saturate(180%) blur(14px);
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid var(--line-dark);
+  color:#fff;
 }
 .site-header__inner{display:flex; align-items:center; gap:var(--s-5); padding-block:var(--s-3)}
 .site-brand{display:flex; align-items:center; gap:var(--s-2); font-family:var(--font-display);
-  font-weight:600; font-size:1.12rem; color:var(--ink); text-decoration:none; letter-spacing:-.03em}
-.site-brand:hover{color:var(--ink)}
+  font-weight:600; font-size:1.12rem; color:#fff; text-decoration:none; letter-spacing:-.02em}
+.site-brand:hover{color:#fff}
 
 /* The logo is a 500x500 square; WP emits width/height attributes but no CSS.
    Constrain by height and let the width follow, with a hard cap for safety. */
@@ -196,9 +226,9 @@ img.custom-logo{
 }
 .site-nav{margin-left:auto}
 .site-nav ul{display:flex; gap:var(--s-5); list-style:none; margin:0; padding:0; flex-wrap:wrap}
-.site-nav a{color:var(--body); text-decoration:none; font-size:var(--t-sm); font-weight:520}
-.site-nav a:hover{color:var(--brand-ink)}
-.site-nav a[aria-current=page]{color:var(--ink); font-weight:600}
+.site-nav a{color:rgba(255,255,255,.78); text-decoration:none; font-size:var(--t-sm); font-weight:520; transition:color .18s var(--ease)}
+.site-nav a:hover{color:#fff}
+.site-nav a[aria-current=page]{color:#fff; font-weight:600}
 .site-header__cta{margin-left:var(--s-4)}
 /* The in-panel CTA only exists on mobile; the standalone header CTA only on
    desktop. Keeping both in the markup means neither layout needs JS.
@@ -217,11 +247,11 @@ img.custom-logo{
   .nav-toggle{
     display:grid; place-items:center; margin-left:auto;
     width:44px; height:44px; border-radius:var(--radius-sm);
-    border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    border:1px solid var(--line-dark); background:rgba(255,255,255,.06); color:#fff;
     cursor:pointer; flex:none;
     transition:border-color .18s var(--ease), background .18s var(--ease);
   }
-  .nav-toggle:hover{border-color:color-mix(in srgb,var(--brand) 50%,var(--line))}
+  .nav-toggle:hover{border-color:color-mix(in srgb,var(--brand) 60%,transparent); background:rgba(255,255,255,.12)}
   .nav-toggle-close{display:none}
   /* swap the burger for a cross while the panel is open */
   .nav-toggle-input:checked ~ .nav-toggle .nav-toggle-open{display:none}
@@ -239,8 +269,8 @@ img.custom-logo{
      visibility flips with a delay so collapsed links leave the tab order. */
   .site-nav{
     position:absolute; left:0; right:0; top:100%; margin:0;
-    background:var(--surface); border-bottom:1px solid var(--line);
-    box-shadow:0 18px 32px -22px rgba(14,20,10,.30);
+    background:var(--ink); border-bottom:1px solid var(--line-dark);
+    box-shadow:0 18px 32px -22px rgba(14,20,10,.55);
     display:grid; grid-template-rows:0fr;
     visibility:hidden; z-index:99;
     padding-inline:clamp(1rem,4vw,2rem);
@@ -253,7 +283,7 @@ img.custom-logo{
   }
   .site-nav a{
     display:block; padding:.85rem 0; font-size:var(--t-base);
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid var(--line-dark);
   }
   .site-nav > .site-nav__panel > ul > li:last-child > a{border-bottom:0}
   .site-nav .site-nav__cta{
@@ -275,11 +305,14 @@ img.custom-logo{
    6. BUTTONS
    ========================================================================== */
 /* Buttons: pill radius on CTAs (Supabase), weight 520 not 620 — restraint is
-   what makes it read as expensive. Depth on hover comes from a brand glow. */
+   what makes it read as expensive. Depth on hover comes from a brand glow.
+   Sized up to match Google Labs' 18px/500 pill at 16px 32px: at our 17.4px body
+   that is 1.03em type in .92em 1.84em padding, so CTAs read as the page's
+   second-largest element after the headings. */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.5em;
-  padding:.72em 1.4em; border:1px solid transparent; border-radius:var(--radius-pill);
-  font-family:var(--font-body); font-size:var(--t-sm); font-weight:520; line-height:1.2;
+  padding:.92em 1.84em; border:1px solid transparent; border-radius:var(--radius-pill);
+  font-family:var(--font-body); font-size:clamp(.95rem,.93rem + .10vw,1.03rem); font-weight:520; line-height:1.2;
   letter-spacing:-.005em;
   text-decoration:none; cursor:pointer;
   transition:transform .18s var(--ease), background .18s var(--ease), color .18s var(--ease), box-shadow .18s var(--ease), border-color .18s var(--ease);
@@ -334,6 +367,17 @@ img.custom-logo{
 }
 .hero__grid{display:grid; gap:clamp(2rem,5vw,4.5rem); grid-template-columns:1fr; align-items:center}
 @media (min-width:980px){ .hero__grid{grid-template-columns:1.15fr .85fr} }
+
+/* Full-width display headline above the two-column body. Google Labs sets its
+   display type at 120px across 1232px; the equivalent here is the headline
+   owning the whole container and the supporting copy sitting under it. */
+.hero__display{margin-bottom:clamp(2.5rem,2rem + 3vw,4.5rem)}
+.hero__title--display{
+  font-size:clamp(2.75rem, 1.2rem + 7.2vw, 6.5rem);
+  line-height:1.0;
+  letter-spacing:-.015em;
+  max-width:24ch;
+}
 .hero .eyebrow{color:var(--brand)}
 .trust{display:flex; flex-wrap:wrap; gap:var(--s-5) var(--s-6); margin-top:var(--s-7);
   padding-top:var(--s-5); border-top:1px solid rgba(255,255,255,.14); list-style:none; padding-left:0}
@@ -368,7 +412,7 @@ img.custom-logo{
 /* Cards: translucent surface + hairline border. On hover only the BORDER
    changes to brand tint — no generic lift-and-shadow (VoltAgent). */
 .card{
-  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
   padding:var(--s-6);
   transition:transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
   display:flex; flex-direction:column;
