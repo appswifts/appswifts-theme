@@ -32,11 +32,6 @@ usort($gallery, fn($a, $b) => ($b->ID === $thumb_id) <=> ($a->ID === $thumb_id))
 ?>
   <header class="page-hero">
     <div class="wrap">
-      <?php if (!empty($terms[__('Industry', 'appswifts')])) : ?>
-        <span class="eyebrow"><?php
-          echo esc_html(implode(' · ', wp_list_pluck($terms[__('Industry', 'appswifts')][1], 'name')));
-        ?></span>
-      <?php endif; ?>
       <h1><?php the_title(); ?></h1>
       <?php if (has_excerpt()) : ?>
         <p><?php echo esc_html(get_the_excerpt()); ?></p>

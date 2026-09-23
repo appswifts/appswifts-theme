@@ -9,19 +9,11 @@
 get_header();
 
 $term = get_queried_object();
-$tax  = get_queried_object()->taxonomy ?? '';
-
-$label = [
-    'industry'         => __('Industry', 'appswifts'),
-    'service-provided' => __('Service', 'appswifts'),
-    'client-location'  => __('Location', 'appswifts'),
-][$tax] ?? __('Work', 'appswifts');
 
 $count = (int) ($term->count ?? 0);
 ?>
   <header class="page-hero">
     <div class="wrap">
-      <span class="eyebrow"><?php echo esc_html($label); ?></span>
       <h1>
         <?php
         printf(

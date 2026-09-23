@@ -23,7 +23,6 @@ $uses = [
 ?>
   <header class="page-hero">
     <div class="wrap">
-      <span class="eyebrow"><?php esc_html_e('Swifts AI', 'appswifts'); ?></span>
       <h1><?php esc_html_e('A private AI workspace, set up for your business', 'appswifts'); ?></h1>
       <p><?php esc_html_e('One tool that learns how your business works, handles the repetitive jobs, and keeps your data to yourself. Built and hosted by AppSwifts in Kigali.', 'appswifts'); ?></p>
       <div class="btn-row" style="margin-top:var(--s-5)">

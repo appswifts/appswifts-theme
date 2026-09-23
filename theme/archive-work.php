@@ -25,7 +25,6 @@ foreach (['industry' => __('Industry', 'appswifts'), 'service-provided' => __('S
 ?>
   <header class="page-hero">
     <div class="wrap">
-      <span class="eyebrow"><?php esc_html_e('Our work', 'appswifts'); ?></span>
       <h1><?php esc_html_e('Things we built that are still running', 'appswifts'); ?></h1>
       <p>
         <?php

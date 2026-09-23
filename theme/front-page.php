@@ -14,7 +14,6 @@ get_header();
   // after three words and never read as 84px. Full width gives it ~1200px.
   ?>
   <div class="wrap wrap--wide hero__display">
-    <span class="eyebrow"><?php esc_html_e('Swifts AI · Built in Kigali, Rwanda', 'appswifts'); ?></span>
     <h1 class="hero__title hero__title--display"><?php esc_html_e('Put AI to work in your business this week', 'appswifts'); ?></h1>
   </div>
 
@@ -78,7 +77,6 @@ $appswifts_integrations = [
 <section class="section section--cream">
   <div class="wrap">
     <div class="int__head">
-      <span class="eyebrow"><?php esc_html_e('Connects to', 'appswifts'); ?></span>
       <h2><?php esc_html_e('It works inside the tools you already run', 'appswifts'); ?></h2>
       <p class="lead"><?php esc_html_e('No migration, no new app to learn. Swifts AI plugs into what your team opens every morning — and sends work back where people already look.', 'appswifts'); ?></p>
     </div>
@@ -122,7 +120,6 @@ $appswifts_integrations = [
 <section class="section section--dark">
   <div class="wrap">
     <div class="int__head">
-      <span class="eyebrow"><?php esc_html_e('How it connects', 'appswifts'); ?></span>
       <h2><?php esc_html_e('It works through your site, your CMS and your inbox', 'appswifts'); ?></h2>
       <p class="lead"><?php esc_html_e('Nobody has to learn another app. Swifts AI reaches into the tools you already run, and the work comes back to where you already look for it.', 'appswifts'); ?></p>
     </div>
@@ -195,7 +192,6 @@ $appswifts_integrations = [
 <section class="section">
   <div class="wrap">
     <div style="max-width:46rem;margin-bottom:var(--s-7)">
-      <span class="eyebrow"><?php esc_html_e('What it does', 'appswifts'); ?></span>
       <h2><?php esc_html_e('What you can hand to it on day one', 'appswifts'); ?></h2>
       <p class="lead"><?php esc_html_e('Most of the time your team loses goes on work that follows the same pattern every single time. That part is worth automating.', 'appswifts'); ?></p>
     </div>
@@ -247,7 +243,6 @@ $appswifts_integrations = [
     <div class="split">
 
       <div>
-        <span class="eyebrow"><?php esc_html_e('Why us', 'appswifts'); ?></span>
         <h2><?php esc_html_e('The licence is the easy part. Getting it working is the job.', 'appswifts'); ?></h2>
         <p class="lead">
           <?php esc_html_e('AI subscriptions are easy to buy. Making one useful in a business with real customers, real prices and staff who are already stretched is where people get stuck. That is the part we do. We sit with your team, put your documents and prices in, and keep adjusting it until it is genuinely saving hours.', 'appswifts'); ?>
@@ -290,7 +285,6 @@ $appswifts_integrations = [
 <section class="section section--bg">
   <div class="wrap">
     <div style="max-width:42rem;margin-bottom:var(--s-7)">
-      <span class="eyebrow"><?php esc_html_e('Built for', 'appswifts'); ?></span>
       <h2><?php esc_html_e('Who gets the most out of it', 'appswifts'); ?></h2>
     </div>
 
@@ -315,7 +309,6 @@ $appswifts_integrations = [
 <section class="section section--cream">
   <div class="wrap">
     <div style="max-width:46rem;margin-bottom:var(--s-6)">
-      <span class="eyebrow"><?php esc_html_e('Also from AppSwifts', 'appswifts'); ?></span>
       <h2><?php esc_html_e('Everything else your business needs online', 'appswifts'); ?></h2>
       <p class="lead"><?php esc_html_e('AI works better when the website underneath it is any good. We do that part too.', 'appswifts'); ?></p>
     </div>
@@ -359,7 +352,6 @@ get_template_part('inc/world-map');
 <section class="section section--cream">
   <div class="wrap">
     <div style="max-width:46rem;margin-bottom:var(--s-6)">
-      <span class="eyebrow"><?php esc_html_e('Selected work', 'appswifts'); ?></span>
       <h2><?php esc_html_e('Built for businesses here and abroad', 'appswifts'); ?></h2>
       <p class="lead"><?php
         printf(
@@ -388,7 +380,6 @@ if ($recent) :
 <section class="section section--bg">
   <div class="wrap">
     <div style="max-width:42rem;margin-bottom:var(--s-6)">
-      <span class="eyebrow"><?php esc_html_e('Insights', 'appswifts'); ?></span>
       <h2><?php esc_html_e('From the blog', 'appswifts'); ?></h2>
     </div>
     <div class="grid grid--3">

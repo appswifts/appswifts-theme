@@ -63,7 +63,6 @@ $services = [
 
   <header class="page-hero">
     <div class="wrap">
-      <span class="eyebrow"><?php esc_html_e('Services', 'appswifts'); ?></span>
       <h1><?php esc_html_e('Four services, built to bring you customers', 'appswifts'); ?></h1>
       <p><?php esc_html_e('They work together, but you do not have to start with all four. Pick the one that pays for itself first.', 'appswifts'); ?></p>
     </div>

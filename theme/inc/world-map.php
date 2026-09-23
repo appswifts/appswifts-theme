@@ -86,7 +86,6 @@ $aswp_ids = array_map(static fn($a, $i) => 'aswp-arc-' . $i, $aswp_arcs, array_k
   <div class="wrap">
 
     <div class="map__head">
-      <span class="eyebrow"><?php esc_html_e('Where we work', 'appswifts'); ?></span>
       <h2><?php esc_html_e('One team in Kigali. Clients across three continents.', 'appswifts'); ?></h2>
       <p class="lead"><?php
         printf(

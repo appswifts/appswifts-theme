@@ -54,7 +54,6 @@ $plans = [
 ?>
   <header class="page-hero">
     <div class="wrap">
-      <span class="eyebrow"><?php esc_html_e('Pricing', 'appswifts'); ?></span>
       <h1><?php esc_html_e('Clear prices, agreed before we start', 'appswifts'); ?></h1>
       <p><?php esc_html_e('You get a fixed quote up front. No hourly billing, and no invoice arriving with surprises on it.', 'appswifts'); ?></p>
     </div>

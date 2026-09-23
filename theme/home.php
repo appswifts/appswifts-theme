@@ -6,7 +6,6 @@ get_header();
 ?>
   <header class="page-hero">
     <div class="wrap">
-      <span class="eyebrow"><?php esc_html_e('Insights', 'appswifts'); ?></span>
       <h1><?php esc_html_e('Practical guides for growing online in Africa', 'appswifts'); ?></h1>
       <p><?php esc_html_e('SEO, websites, digital marketing and AI. Written for business owners rather than developers.', 'appswifts'); ?></p>
     </div>

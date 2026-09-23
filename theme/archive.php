@@ -6,7 +6,6 @@ get_header();
 ?>
   <header class="page-hero">
     <div class="wrap">
-      <span class="eyebrow"><?php esc_html_e('Insights', 'appswifts'); ?></span>
       <h1>
         <?php
         if (is_search()) {

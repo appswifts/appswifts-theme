@@ -6,7 +6,6 @@ get_header();
 ?>
   <div class="section" style="min-height:52vh;display:grid;place-items:center">
     <div class="wrap center">
-      <span class="eyebrow">404</span>
       <h1><?php esc_html_e('That page has moved on', 'appswifts'); ?></h1>
       <p class="lead"><?php esc_html_e('The link you followed doesn\'t exist any more. Try one of these instead.', 'appswifts'); ?></p>
       <div class="btn-row" style="justify-content:center">

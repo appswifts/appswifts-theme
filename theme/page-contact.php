@@ -11,7 +11,6 @@ $error = isset($_GET['error']);
 ?>
   <header class="page-hero">
     <div class="wrap">
-      <span class="eyebrow"><?php esc_html_e('Get in touch', 'appswifts'); ?></span>
       <h1><?php esc_html_e('Tell us what you need', 'appswifts'); ?></h1>
       <p><?php esc_html_e('One working day for a reply, with a straight answer on scope, price and timeline.', 'appswifts'); ?></p>
     </div>
