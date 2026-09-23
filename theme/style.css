@@ -228,21 +228,25 @@ hr{border:0;border-top:1px solid var(--line);margin:var(--s-7) 0}
   font-weight:600; font-size:1.12rem; color:#fff; text-decoration:none; letter-spacing:-.02em}
 .site-brand:hover{color:#fff}
 
-/* The logo is a 500x500 square; WP emits width/height attributes but no CSS.
-   Constrain by height and let the width follow, with a hard cap for safety. */
+/* Logo sizing.
+   The lockup is a 500x250 canvas whose ink occupies 495x150 — so the file is
+   NOT square and height alone drives the render. At height:38px the ink only
+   measured 22.8px tall, which read as small next to 15.2px nav links.
+   Set by height, let width follow, cap width so a stray wide upload can't push
+   the nav off-screen. 56px puts the ink at ~33.6px, in proportion with the nav. */
 .custom-logo-link{display:flex; align-items:center; flex:none}
 .custom-logo-link img,
 .site-brand img,
 img.custom-logo{
-  height:38px;
+  height:clamp(44px, 4.4vw, 56px);
   width:auto;
-  max-height:38px;
-  max-width:150px;
+  max-height:none;
+  max-width:min(300px, 42vw);
   object-fit:contain;
 }
 @media (max-width:600px){
   .custom-logo-link img,
-  img.custom-logo{height:32px; max-height:32px; max-width:120px}
+  img.custom-logo{height:40px; max-height:none; max-width:min(200px, 52vw)}
 }
 .site-nav{margin-left:auto}
 .site-nav ul{display:flex; gap:var(--s-5); list-style:none; margin:0; padding:0; flex-wrap:wrap}
