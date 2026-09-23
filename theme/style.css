@@ -511,3 +511,65 @@ img.custom-logo{
 .alignwide{max-width:1320px;margin-inline:auto}
 .wp-block-image figcaption{font-size:var(--t-xs);color:var(--muted);text-align:center;margin-top:var(--s-2)}
 .screen-reader-text{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ==========================================================================
+   Portfolio — work archive, taxonomy filters, single project
+   Added when the 22 projects were imported from the original site.
+   ========================================================================== */
+
+/* --- filter bar: plain links, so filters work with JS off and stay crawlable -- */
+.filter-bar{display:flex;flex-direction:column;gap:var(--s-4);margin-bottom:var(--s-7);
+  padding-bottom:var(--s-5);border-bottom:1px solid var(--line)}
+.filter-bar__row{display:flex;gap:var(--s-4);align-items:baseline;flex-wrap:wrap}
+.filter-bar__label{font-family:var(--font-mono);font-size:var(--t-xs);text-transform:uppercase;
+  letter-spacing:.14em;color:var(--muted);flex:none;min-width:66px}
+.pill-list{display:flex;flex-wrap:wrap;gap:var(--s-2);list-style:none;margin:0;padding:0}
+.pill{display:inline-flex;align-items:center;gap:.5em;
+  padding:.34em .85em;border-radius:var(--radius-pill);border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);font-size:var(--t-sm);font-weight:500;
+  text-decoration:none;transition:border-color .18s var(--ease),background .18s var(--ease)}
+.pill:hover{border-color:var(--brand);background:var(--brand-soft);color:var(--brand-ink)}
+.pill__n{font-family:var(--font-mono);font-size:.72em;color:var(--muted);
+  background:var(--bg);border-radius:var(--radius-pill);padding:.1em .5em}
+.pill:hover .pill__n{background:var(--surface);color:var(--brand-ink)}
+
+/* --- work card: image flush to the card edge, so it needs its own padding ---- */
+.work-card{padding:0;overflow:hidden}
+.work-card__media{overflow:hidden;background:var(--bg);border-bottom:1px solid var(--line)}
+.work-card__media img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+  transition:transform .35s var(--ease)}
+.work-card:hover .work-card__media img{transform:scale(1.03)}
+.work-card__body{padding:var(--s-5);display:flex;flex-direction:column;flex:1}
+.work-card__tags{display:flex;flex-wrap:wrap;gap:var(--s-1);margin:0 0 var(--s-3)}
+
+/* --- single project gallery: lead image full width, rest on a grid ----------- */
+.gallery{display:grid;gap:var(--s-4);grid-template-columns:repeat(2,1fr)}
+.gallery__item{margin:0}
+.gallery__item--lead{grid-column:1/-1}
+.gallery__item img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius);
+  border:1px solid var(--line);display:block}
+@media(min-width:760px){.gallery{grid-template-columns:repeat(3,1fr)}}
+
+/* --- project facts --- */
+.detail-list{margin:0;display:flex;flex-direction:column;gap:var(--s-3)}
+.detail-list__row{display:grid;grid-template-columns:1fr;gap:var(--s-1);
+  padding-bottom:var(--s-3);border-bottom:1px solid var(--line)}
+.detail-list__row:last-child{border-bottom:0;padding-bottom:0}
+.detail-list dt{font-family:var(--font-mono);font-size:var(--t-xs);text-transform:uppercase;
+  letter-spacing:.14em;color:var(--muted)}
+.detail-list dd{margin:0;color:var(--ink);font-weight:500}
+@media(min-width:640px){
+  .detail-list__row{grid-template-columns:180px 1fr;align-items:baseline}
+}
+
+/* Blog cards: the migrated posts have no images (the original kept them in
+   Elementor postmeta, which REST cannot see), so the card must not reserve
+   media space it will never fill. */
+.post-card__cat{
+  font-family:var(--font-mono); font-size:var(--t-xs); font-weight:500;
+  letter-spacing:.06em; text-transform:uppercase;
+  color:var(--brand-ink); text-decoration:none; width:fit-content;
+}
+.post-card__cat:hover{ color:var(--brand-600) }
+.related{margin-top:var(--s-8); padding-top:var(--s-6); border-top:1px solid var(--line)}
+.related h2{font-size:var(--t-xl); margin-bottom:var(--s-5)}

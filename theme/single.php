@@ -38,6 +38,33 @@ while (have_posts()) :
         </div>
 
         <?php if ($is_post) : ?>
+          <?php
+          // Related posts by shared category. The migrated posts had no internal
+          // links at all, which is why they never helped each other rank.
+          $cats = wp_get_post_categories(get_the_ID());
+          $more = $cats ? get_posts([
+              'post_type'      => 'post',
+              'posts_per_page' => 3,
+              'post__not_in'   => [get_the_ID()],
+              'category__in'   => $cats,
+          ]) : [];
+          if ($more) : ?>
+            <div class="related">
+              <h2><?php esc_html_e('Keep reading', 'appswifts'); ?></h2>
+              <div class="grid grid--3">
+                <?php foreach ($more as $m) : ?>
+                  <article class="post-card">
+                    <div class="post-card__body">
+                      <time datetime="<?php echo esc_attr(get_the_date('c', $m)); ?>"><?php echo esc_html(get_the_date('', $m)); ?></time>
+                      <h3><a href="<?php echo esc_url((string) get_permalink($m)); ?>"><?php echo esc_html(get_the_title($m)); ?></a></h3>
+                      <p class="small muted"><?php echo esc_html(wp_trim_words((string) get_the_excerpt($m), 16)); ?></p>
+                    </div>
+                  </article>
+                <?php endforeach; ?>
+              </div>
+            </div>
+          <?php endif; ?>
+
           <div style="margin-top:var(--s-7);padding-top:var(--s-5);border-top:1px solid var(--line)">
             <a class="btn btn--ghost" href="<?php echo esc_url(home_url('/blog/')); ?>">&larr; <?php esc_html_e('Back to all articles', 'appswifts'); ?></a>
           </div>

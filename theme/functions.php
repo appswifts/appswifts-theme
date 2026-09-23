@@ -15,6 +15,7 @@ declare(strict_types=1);
 const APPSWIFTS_VERSION = '1.0.0';
 
 require_once get_stylesheet_directory() . '/inc/icons.php';
+require_once get_stylesheet_directory() . '/inc/portfolio.php';
 
 add_action('wp_enqueue_scripts', function (): void {
     $dir = get_stylesheet_directory();
@@ -76,16 +77,74 @@ function appswifts_nav_fallback(): void
 }
 
 /**
+ * The <title> for the current view.
+ *
+ * WordPress's own title-tag renders at wp_head priority 1, so printing our own
+ * <title> would be ignored. Hook pre_get_document_title instead and let core
+ * emit it. Also reused verbatim as og:title.
+ */
+function appswifts_seo_title(): string
+{
+    $site = (string) get_bloginfo('name');
+
+    $t = match (true) {
+        is_front_page()                  => $site,
+        is_404()                         => 'Page not found · ' . $site,
+        is_post_type_archive('work')     => 'Our work · websites, apps and brands we built · ' . $site,
+        is_tax()                         => appswifts_tax_title(get_queried_object(), $site),
+        is_category()                    => sprintf('%s guides and articles · %s', single_cat_title('', false), $site),
+        is_home()                        => 'Guides on websites, SEO and AI for African businesses · ' . $site,
+        is_singular('work')              => sprintf('%s · a project by AppSwifts', get_the_title()),
+        is_singular()                    => sprintf('%s · %s', get_the_title(), $site),
+        is_search()                      => sprintf('Search results for "%s" · %s', get_search_query(), $site),
+        default                          => $site,
+    };
+
+    return trim(preg_replace('/\s+/', ' ', $t));
+}
+
+function appswifts_tax_title(?WP_Term $t, string $site): string
+{
+    if (!$t) {
+        return $site;
+    }
+
+    return match ($t->taxonomy) {
+        'client-location'  => sprintf('Our work for clients in %s · %s', $t->name, $site),
+        'service-provided' => sprintf('%s projects we delivered · %s', $t->name, $site),
+        default            => sprintf('Our work for %s clients · %s', $t->name, $site),
+    };
+}
+
+add_filter('pre_get_document_title', 'appswifts_seo_title');
+
+/**
  * Per-post SEO: description, Open Graph, Twitter card, JSON-LD.
  * Written by hand so no SEO plugin is needed.
  */
 add_action('wp_head', function (): void {
+    $queried = (int) get_queried_object_id();
     // Description: page excerpt -> page content -> site tagline.
     // A static front page has no excerpt/content, so the tagline must be the
     // fallback or the whole SEO block silently disappears.
     $desc = '';
     if (is_singular()) {
-        $desc = get_the_excerpt() ?: wp_strip_all_tags((string) get_post_field('post_content', get_queried_object_id()));
+        $desc = get_the_excerpt() ?: wp_strip_all_tags((string) get_post_field('post_content', $queried));
+    } elseif (is_category() || is_tag()) {
+        // No term description on categories, so build one from the name. Without
+        // this every category page would share the identical site tagline.
+        $d = wp_strip_all_tags((string) term_description());
+        $desc = $d !== '' ? $d : sprintf('%s articles by AppSwifts: practical guides on %s for business owners in Rwanda and across Africa.',
+            single_cat_title('', false), strtolower(single_cat_title('', false)));
+    } elseif (is_tax()) {
+        // Term descriptions were seeded per term; without this every archive page
+        // would carry the identical site tagline. Returned as HTML in block themes.
+        $desc = wp_strip_all_tags((string) term_description());
+    } elseif (is_post_type_archive('work')) {
+        $n = (int) wp_count_posts('work')->publish;
+        $desc = sprintf('%d websites, apps and brand projects AppSwifts built for clients in Rwanda, the UK and Europe. Filter by industry, service or country.', $n);
+    } elseif (is_home()) {
+        $desc = 'Practical guides on SEO, websites, AI and digital marketing, written for business owners in Rwanda and across Africa rather than for developers.';
     }
     if (trim($desc) === '') {
         $desc = (string) get_bloginfo('description');
@@ -95,10 +154,9 @@ add_action('wp_head', function (): void {
         $desc = 'Websites, apps, digital marketing and AI, built in Kigali, Rwanda for businesses across Africa.';
     }
 
-    // Front page and archives should advertise the brand, not the page name.
-    $title = is_front_page() || !is_singular()
-        ? (string) get_bloginfo('name')
-        : (string) get_the_title();
+    // Same string the <title> uses, so the share card always matches the page.
+    $title = appswifts_seo_title();
+
     $url   = is_singular() ? (string) get_permalink() : home_url('/');
     $img   = is_singular() && has_post_thumbnail()
         ? (string) get_the_post_thumbnail_url(null, 'large')

@@ -171,6 +171,37 @@ get_header();
 </section>
 
 <?php
+// Real client work, not logos on a wall. These are the projects imported from the
+// original site with their industry/service taxonomies intact.
+$projects = get_posts(['post_type' => 'work', 'numberposts' => 6, 'post_status' => 'publish']);
+if ($projects) :
+?>
+<section class="section">
+  <div class="wrap">
+    <div style="max-width:46rem;margin-bottom:var(--s-6)">
+      <span class="eyebrow"><?php esc_html_e('Selected work', 'appswifts'); ?></span>
+      <h2><?php esc_html_e('Built for businesses here and abroad', 'appswifts'); ?></h2>
+      <p class="lead"><?php
+        printf(
+            /* translators: %d: number of portfolio projects */
+            esc_html__('A sample of %d projects across Rwanda, the UK and Europe. Real sites, real clients.', 'appswifts'),
+            (int) wp_count_posts('work')->publish
+        );
+      ?></p>
+    </div>
+    <div class="grid grid--3">
+      <?php foreach ($projects as $p) {
+          echo appswifts_work_card($p->ID);
+      } ?>
+    </div>
+    <div class="btn-row" style="margin-top:var(--s-6)">
+      <a class="btn btn--ghost" href="<?php echo esc_url((string) get_post_type_archive_link('work')); ?>"><?php esc_html_e('See all work', 'appswifts'); ?></a>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
+
+<?php
 $recent = get_posts(['numberposts' => 3, 'post_status' => 'publish', 'post__not_in' => [1]]);
 if ($recent) :
 ?>
@@ -183,10 +214,17 @@ if ($recent) :
     <div class="grid grid--3">
       <?php foreach ($recent as $p) : ?>
         <article class="post-card">
-          <a href="<?php echo esc_url(get_permalink($p)); ?>" tabindex="-1" aria-hidden="true">
-            <?php echo get_the_post_thumbnail($p, 'medium_large'); ?>
-          </a>
+          <?php if (has_post_thumbnail($p)) : ?>
+            <a class="post-card__media" href="<?php echo esc_url(get_permalink($p)); ?>" tabindex="-1" aria-hidden="true">
+              <?php echo get_the_post_thumbnail($p, 'medium_large'); ?>
+            </a>
+          <?php endif; ?>
           <div class="post-card__body">
+            <?php
+            $pc = get_the_category($p->ID);
+            if ($pc) : ?>
+              <a class="post-card__cat" href="<?php echo esc_url((string) get_category_link($pc[0])); ?>"><?php echo esc_html($pc[0]->name); ?></a>
+            <?php endif; ?>
             <time datetime="<?php echo esc_attr(get_the_date('c', $p)); ?>"><?php echo esc_html(get_the_date('', $p)); ?></time>
             <h3><a href="<?php echo esc_url(get_permalink($p)); ?>"><?php echo esc_html(get_the_title($p)); ?></a></h3>
             <p class="small muted"><?php echo esc_html(wp_trim_words(get_the_excerpt($p), 18)); ?></p>
