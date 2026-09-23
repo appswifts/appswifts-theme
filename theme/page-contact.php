@@ -76,7 +76,7 @@ $error = isset($_GET['error']);
                <a href="https://wa.me/250781965789" rel="noopener"><?php esc_html_e('Message on WhatsApp', 'appswifts'); ?></a></p>
           </div>
           <div class="card">
-            <div class="card__icon"><?php appswifts_icon('spark'); ?></div>
+            <div class="card__icon"><?php appswifts_icon('pin'); ?></div>
             <h3><?php esc_html_e('Office', 'appswifts'); ?></h3>
             <p><?php esc_html_e('Kigali, Rwanda', 'appswifts'); ?></p>
           </div>

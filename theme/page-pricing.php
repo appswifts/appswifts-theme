@@ -70,9 +70,8 @@ $plans = [
             <?php endif; ?>
             <h3><?php echo esc_html($p['name']); ?></h3>
             <p class="small muted"><?php echo esc_html($p['desc']); ?></p>
-            <p style="margin:var(--s-4) 0 var(--s-1)">
-              <span style="font-family:var(--font-display);font-size:var(--t-2xl);font-weight:600;color:var(--ink);letter-spacing:-.03em"><?php echo esc_html($p['price']); ?></span>
-              <span class="small muted"> RWF</span>
+            <p class="card__price">
+              <?php echo esc_html($p['price']); ?><span class="card__price-unit"> RWF</span>
             </p>
             <p class="small muted" style="margin-bottom:var(--s-5)"><?php echo esc_html($p['unit']); ?></p>
             <ul class="stack small" style="list-style:none;padding:0;margin:0 0 var(--s-5);flex:1">

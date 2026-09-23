@@ -58,7 +58,7 @@ get_header();
     <div class="grid grid--3">
 
       <article class="card card--feature">
-        <div class="card__icon"><?php appswifts_icon('spark'); ?></div>
+        <div class="card__icon"><?php appswifts_icon('pen'); ?></div>
         <h3><?php esc_html_e('Writes in your voice', 'appswifts'); ?></h3>
         <p><?php esc_html_e('Blog posts, quotations, proposals, follow-up emails. Feed it a few things you have already written and it picks up your phrasing, so you are not rewriting everything it produces.', 'appswifts'); ?></p>
       </article>
@@ -170,10 +170,25 @@ get_header();
     </div>
 
     <div class="grid grid--4">
-      <article class="card"><h3 style="font-size:var(--t-lg)"><?php esc_html_e('Websites', 'appswifts'); ?></h3><p><?php esc_html_e('Sites that load fast, rank for what people in Kigali actually search, and turn visitors into enquiries.', 'appswifts'); ?></p><p><a href="<?php echo esc_url(home_url('/services/#web')); ?>"><?php esc_html_e('Learn more', 'appswifts'); ?> &rarr;</a></p></article>
-      <article class="card"><h3 style="font-size:var(--t-lg)"><?php esc_html_e('Apps &amp; APIs', 'appswifts'); ?></h3><p><?php esc_html_e('Booking systems, dashboards and the integrations that stop your team retyping the same data into three places.', 'appswifts'); ?></p><p><a href="<?php echo esc_url(home_url('/services/#apps')); ?>"><?php esc_html_e('Learn more', 'appswifts'); ?> &rarr;</a></p></article>
-      <article class="card"><h3 style="font-size:var(--t-lg)"><?php esc_html_e('Digital marketing', 'appswifts'); ?></h3><p><?php esc_html_e('SEO, Google and social ads. We report on cost per enquiry, not impressions.', 'appswifts'); ?></p><p><a href="<?php echo esc_url(home_url('/services/#marketing')); ?>"><?php esc_html_e('Learn more', 'appswifts'); ?> &rarr;</a></p></article>
-      <article class="card"><h3 style="font-size:var(--t-lg)"><?php esc_html_e('Hosting &amp; care', 'appswifts'); ?></h3><p><?php esc_html_e('Hosting, daily backups and monitoring. Someone actually answers when it breaks.', 'appswifts'); ?></p><p><a href="<?php echo esc_url(home_url('/services/#hosting')); ?>"><?php esc_html_e('Learn more', 'appswifts'); ?> &rarr;</a></p></article>
+      <?php
+      // .card--link: whole card is the hit area with one heading link inside, so
+      // the target is big but the a11y tree stays clean (one link per card, not a
+      // link plus a "Learn more" plus a duplicated title).
+      $also = [
+        ['web', 'Websites', 'Sites that load fast, rank for what people in Kigali actually search, and turn visitors into enquiries.'],
+        ['apps', 'Apps &amp; APIs', 'Booking systems, dashboards and the integrations that stop your team retyping the same data into three places.'],
+        ['marketing', 'Digital marketing', 'SEO, Google and social ads. We report on cost per enquiry, not impressions.'],
+        ['hosting', 'Hosting &amp; care', 'Hosting, daily backups and monitoring. Someone actually answers when it breaks.'],
+      ];
+      foreach ($also as [$anchor, $title, $blurb]) : ?>
+        <article class="card card--link">
+          <a class="card__hit" href="<?php echo esc_url(home_url('/services/#' . $anchor)); ?>">
+            <h3><?php echo esc_html($title); ?></h3>
+            <p><?php echo esc_html($blurb); ?></p>
+            <span class="card__arrow"><?php esc_html_e('Learn more', 'appswifts'); ?> &rarr;</span>
+          </a>
+        </article>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
