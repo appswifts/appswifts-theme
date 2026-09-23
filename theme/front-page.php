@@ -47,6 +47,65 @@ get_header();
   </div>
 </section>
 
+<?php
+/**
+ * Integrations band.
+ *
+ * Logos are hotlinked (jsDelivr, CORS-open) and painted through a CSS mask
+ * rather than an <img>, so every mark renders in one ink colour instead of
+ * thirty brand palettes fighting each other. LinkedIn is pinned to v13 —
+ * simple-icons dropped it in v14 over trademark, so it 404s on @15.
+ *
+ * Skipped: preview screenshots on hover. We have none, and inventing them
+ * would be the fake-screenshot tell. Hover reveals what we actually DO with
+ * the tool instead. Add images here when real captures exist.
+ */
+$appswifts_integrations = [
+    ['gmail',          'Gmail',           'Reads the enquiry, drafts the reply in your voice.'],
+    ['googlecalendar', 'Calendar',        'Books the viewing or the call without the back-and-forth.'],
+    ['googlesheets',   'Sheets',          'Pulls your rate card and stock so answers stay accurate.'],
+    ['googledrive',    'Drive',           'Works from the documents you already keep there.'],
+    ['whatsapp',       'WhatsApp',        'Replies to walk-ins and follow-ups while you are busy.'],
+    ['wordpress',      'WordPress',       'Publishes and edits pages, posts and listings.'],
+    ['facebook',       'Facebook',        'Turns one update into posts for the week.'],
+    ['instagram',      'Instagram',       'Drafts captions and publishes on a schedule.'],
+    ['linkedin',       'LinkedIn',        'Writes the follow-up to that agent abroad.'],
+    ['x',              'X',               'Keeps the account alive without you thinking about it.'],
+    ['notion',         'Notion',          'Reads your SOPs and internal notes.'],
+    ['stripe',         'Stripe',          'Reconciles what came in against what you invoiced.'],
+];
+?>
+<section class="section section--cream">
+  <div class="wrap">
+    <div class="int__head">
+      <span class="eyebrow"><?php esc_html_e('Connects to', 'appswifts'); ?></span>
+      <h2><?php esc_html_e('It works inside the tools you already run', 'appswifts'); ?></h2>
+      <p class="lead"><?php esc_html_e('No migration, no new app to learn. Swifts AI plugs into what your team opens every morning — and sends work back where people already look.', 'appswifts'); ?></p>
+    </div>
+
+    <ul class="int__grid">
+      <?php foreach ($appswifts_integrations as [$slug, $name, $does]) : ?>
+        <?php
+        // LinkedIn lives on v13; everything else on v15.
+        $ver = ('linkedin' === $slug) ? 13 : 15;
+        $svg = "https://cdn.jsdelivr.net/npm/simple-icons@{$ver}/icons/{$slug}.svg";
+        ?>
+        <li class="int" style="--logo:url('<?php echo esc_url($svg); ?>')">
+          <span class="int__mark" aria-hidden="true"></span>
+          <div class="int__body">
+            <h3><?php echo esc_html($name); ?></h3>
+            <p><?php echo esc_html($does); ?></p>
+          </div>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+
+    <p class="int__note">
+      <?php esc_html_e('Also connected: Search Console, Analytics, Blogger, Supabase, Cloudinary, Threads, TikTok, YouTube, Pinterest, Slack, Telegram, Zoom, Shopify and Mailchimp.', 'appswifts'); ?>
+    </p>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap">
     <div style="max-width:46rem;margin-bottom:var(--s-7)">

@@ -537,6 +537,56 @@ img.custom-logo{
 .service__items{list-style:none; margin:0; padding:0; border-top:1px solid var(--line)}
 .service__items li{padding-block:var(--s-5); border-bottom:1px solid var(--line)}
 .service__items h3{font-size:var(--t-xl); margin-bottom:var(--s-2)}
+
+/* ==========================================================================
+   INTEGRATIONS
+   --------------------------------------------------------------------------
+   Every logo is painted through a CSS mask, not an <img>. Two reasons:
+   simple-icons SVGs carry no fill attribute, so an <img> renders them black
+   (invisible on the dark band); and thirty brand palettes side by side is a
+   logo-soup tell. Masked, they all take --ink here and --white on dark.
+
+   The ink only reaches full strength on hover. Nine low-contrast marks read as
+   texture; the one you are pointing at reads as a logo. That is the whole
+   interaction — no lift, no shadow.
+   ========================================================================== */
+.int__head{max-width:46rem; margin-bottom:var(--s-7)}
+.int__grid{
+  list-style:none; margin:0 0 var(--s-5); padding:0;
+  display:grid; gap:var(--s-3);
+  grid-template-columns:1fr;
+}
+@media (min-width:560px){ .int__grid{grid-template-columns:repeat(2,1fr)} }
+@media (min-width:920px){ .int__grid{grid-template-columns:repeat(3,1fr)} }
+
+.int{
+  display:flex; gap:var(--s-3); align-items:flex-start;
+  padding:var(--s-4);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius-card);
+  transition:border-color .18s var(--ease), background .18s var(--ease);
+}
+.int:hover{border-color:var(--line-strong)}
+.int:hover .int__mark{background-color:var(--ink); opacity:1}
+
+/* The mask. Size is fixed so marks of different aspect ratios sit on one
+   optical line instead of jittering. */
+.int__mark{
+  flex:none; width:26px; height:26px; margin-top:2px;
+  background-color:var(--ink); opacity:.55;
+  -webkit-mask:var(--logo) center / contain no-repeat;
+          mask:var(--logo) center / contain no-repeat;
+  transition:opacity .18s var(--ease), background-color .18s var(--ease);
+}
+.int__body h3{font-size:var(--t-base); font-weight:600; margin-bottom:.15rem}
+.int__body p{font-size:var(--t-sm); color:var(--muted); margin:0}
+
+.int__note{
+  font-size:var(--t-sm); color:var(--muted);
+  max-width:70ch; margin:0;
+  padding-top:var(--s-4); border-top:1px solid var(--line-warm);
+}
 .service__items p{color:var(--body); font-size:var(--t-sm); line-height:1.62; margin:0; max-width:62ch}
 .badge{
   display:inline-block; padding:.28em .75em; border-radius:var(--radius-pill);
