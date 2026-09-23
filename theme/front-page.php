@@ -350,7 +350,13 @@ $appswifts_integrations = [
 $projects = get_posts(['post_type' => 'work', 'numberposts' => 6, 'post_status' => 'publish']);
 if ($projects) :
 ?>
-<section class="section section--bg">
+<?php
+// Where our clients are. Placed before the work grid so the map introduces the
+// projects rather than repeating them — the grid is the evidence for the map.
+get_template_part('inc/world-map');
+?>
+
+<section class="section section--cream">
   <div class="wrap">
     <div style="max-width:46rem;margin-bottom:var(--s-6)">
       <span class="eyebrow"><?php esc_html_e('Selected work', 'appswifts'); ?></span>

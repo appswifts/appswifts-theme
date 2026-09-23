@@ -555,6 +555,95 @@ img.custom-logo{
 .service__items h3{font-size:var(--t-xl); margin-bottom:var(--s-2)}
 
 /* ==========================================================================
+   MAP — "One team in Kigali"
+   A WordPress translation of the React/dotted-map component: the dot field is
+   a pre-built SVG mask, arcs draw with stroke-dashoffset, and the travelling
+   dots ride the paths with CSS offset-path. No JS, no bundle, no layout thrash.
+
+   Colour comes from `color` on .map, so on the ink band it is one line:
+   `.section--dark .map{color:var(--brand)}` — nothing else needs to change.
+   ========================================================================== */
+.map__head{max-width:46rem; margin-bottom:var(--s-7)}
+.map{
+  position:relative;
+  /* Locked to the dot SVG's own 800x330. The mask below stretches to the
+     container while the <svg> fits its viewBox with "meet" — those two only
+     agree when the container ratio IS the viewBox ratio. Any other ratio and
+     the arcs slide off the land. Do not change this without changing
+     scripts/build_world_dots.py to match. */
+  aspect-ratio:800/330;
+  color:var(--brand-ink);
+  margin-bottom:var(--s-6);
+}
+/* The dot field. Two nested elements because each carries one mask: the outer
+   fades top and bottom so the field never reads as a boxed rectangle, the inner
+   supplies the dots. One mask per element avoids mask-composite, whose syntax
+   still differs between Blink and WebKit.
+   mask-image resolves relative to this stylesheet, i.e. theme root. */
+.map__dots,.map__dots-in{position:absolute; inset:0; display:block}
+.map__dots{
+  pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);
+  mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);
+}
+.map__dots-in{
+  background:currentColor; opacity:.22;
+  -webkit-mask-image:url("assets/world-dots.svg");
+  mask-image:url("assets/world-dots.svg");
+  -webkit-mask-size:100% 100%; mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+}
+.map__svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible}
+
+/* Arcs draw once, then hold. pathLength="1" on the path normalises the length,
+   so dasharray/offset are 0..1 and need no getTotalLength(). Delay is set per
+   arc inline by PHP — a :nth-of-type chain would break the moment an arc is
+   added or the markup order changes. */
+.map__arc{
+  fill:none; stroke-width:1.1; stroke-linecap:round;
+  stroke-dasharray:1; stroke-dashoffset:1;
+  animation:aswp-draw 1.6s var(--ease) forwards;
+}
+@keyframes aswp-draw{to{stroke-dashoffset:0}}
+
+.map__hub{fill:var(--brand)}
+.map__hub-ring{fill:none; stroke:var(--brand); stroke-width:1.2}
+.map__dest{fill:currentColor}
+
+/* The travelling dot. Motion along the path is SMIL <animateMotion>, which is
+   the one reliable way to move an SVG element along a path without JS
+   (offset-path on SVG children is still patchy). It cannot be disabled per se,
+   so reduced-motion hides the dot instead — an unrendered element animates
+   nothing. */
+.map__pulse{fill:var(--brand)}
+
+/* The map is decorative; this list carries the same information as text. */
+.map__legend{
+  list-style:none; padding:0; margin:0;
+  display:flex; flex-wrap:wrap; gap:var(--s-3) var(--s-6);
+}
+.map__legend li{
+  display:flex; align-items:center; gap:var(--s-3);
+  font-size:var(--t-sm); color:var(--body);
+}
+.map__dot{
+  width:9px; height:9px; border-radius:50%;
+  background:var(--brand-ink); flex:none;
+}
+.map__dot--hub{background:var(--brand)}
+
+@media (max-width:640px){
+  /* The ratio stays locked here too: changing it would stretch the mask while
+     the arcs letterbox, sliding the markers off the land. The map simply gets
+     shorter on a phone, and the legend stacks under it. */
+  .map__legend{flex-direction:column; gap:var(--s-3)}
+}
+@media (prefers-reduced-motion:reduce){
+  .map__arc{animation:none; stroke-dashoffset:0}
+  .map__pulse{display:none}
+}
+
+/* ==========================================================================
    INTEGRATIONS
    --------------------------------------------------------------------------
    Every logo is painted through a CSS mask, not an <img>. Two reasons:
