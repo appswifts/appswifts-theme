@@ -1,0 +1,68 @@
+# AppSwifts — plugin-free WordPress, built as a dedicated stack.
+# Project name is set via the directory/compose -p flag so it cannot collide
+# with the older standalone `wordpress` container already on :8080.
+services:
+  db:
+    image: mariadb:11
+    container_name: aswp-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: appswifts
+      MYSQL_USER: appswifts
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    command: >-
+      --innodb-buffer-pool-size=128M
+      --performance-schema=OFF
+      --max-connections=30
+    volumes:
+      - aswp_db:/var/lib/mysql
+    networks: [aswp]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    # capped: the box is already swap-tight (see platform audit)
+    mem_limit: 512m
+    cpus: 1.0
+
+  wp:
+    image: wordpress:6.7-php8.3-apache
+    container_name: aswp-wp
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8083:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: appswifts
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: appswifts
+      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', 'https://new.appswifts.space');
+        define('WP_SITEURL', 'https://new.appswifts.space');
+        define('WP_ENVIRONMENT_TYPE', 'production');
+        define('DISALLOW_FILE_EDIT', true);
+        define('WP_AUTO_UPDATE_CORE', 'minor');
+        define('FORCE_SSL_ADMIN', true);
+        // nginx terminates TLS; tell WP it is behind a proxy
+        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $$_SERVER['HTTPS'] = 'on';
+        }
+    volumes:
+      # bind mount so the theme lives in git-able plain files on the host
+      - /opt/appswifts-wp/html:/var/www/html
+    networks: [aswp]
+    mem_limit: 768m
+    cpus: 1.5
+
+networks:
+  aswp:
+    driver: bridge
+
+volumes:
+  aswp_db:
