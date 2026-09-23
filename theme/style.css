@@ -28,7 +28,7 @@ Text Domain: appswifts
   --ink:          #0e140a;
   --ink-2:        #1b2314;
   --body:         #4a5240;
-  --muted:        #6d7668;   /* 4.73:1 on white — WCAG AA for body text */
+  --muted:        #5f6859;   /* 5.82:1 on white, 5.08:1 on cream, WCAG AA both */
   --line:         #e6eae1;
   /* one step darker than --line, for inset rings that must read as a real edge */
   --line-strong:  #d3dacb;
@@ -259,6 +259,11 @@ img.custom-logo{
    These need .site-nav in the selector to outrank .btn on source order —
    the button styles are defined further down this file. */
 .site-nav .site-nav__cta{display:none}
+/* In the dark mobile panel this CTA inherits .btn--primary's lime fill, and
+   .site-nav a's rgba(255,255,255,.78) colour lands on top of it: 4.13:1 at
+   best and far worse over the panel's own dark bg. Pin the pair explicitly. */
+.site-nav .btn--primary{background:var(--brand); color:var(--ink)}
+.site-nav .btn--primary:hover{background:var(--brand-600); color:var(--ink)}
 .nav-toggle{display:none}
 
 @media (max-width:820px){
@@ -410,6 +415,17 @@ img.custom-logo{
 .section--dark .split h2{color:#fff}
 .section--dark .split .lead{color:#a9b49f}
 .section--dark h2{color:#fff}
+/* The note is shared by the cream integrations band and this dark band. Its
+   light-band palette (#6d7668 on cream) drops to 3.95:1 here — a WCAG fail —
+   so the dark band recolours it rather than the note carrying two palettes. */
+.section--dark .int__note{color:#a9b49f; border-top-color:var(--line-mid)}
+/* On the ink band, .btn--primary (lime fill) and .btn--on-dark (ink outline)
+   both invert: the lime fill becomes the secondary, the outline becomes the
+   primary. Without this the "See pricing" outline is lime-on-lime at 1.00:1. */
+.section--dark .btn--primary{background:var(--brand); color:var(--ink)}
+.section--dark .btn--on-dark{border-color:rgba(255,255,255,.22); background:transparent}
+.section--dark .btn--on-dark:hover{border-color:var(--brand); background:rgba(134,193,59,.10)}
+.section--dark .eyebrow{color:var(--brand)}
 .trust{display:flex; flex-wrap:wrap; gap:var(--s-5) var(--s-6); margin-top:var(--s-7);
   padding-top:var(--s-5); border-top:1px solid rgba(255,255,255,.14); list-style:none; padding-left:0}
 .trust li{font-size:var(--t-sm); color:#98a48e}
@@ -587,6 +603,96 @@ img.custom-logo{
   max-width:70ch; margin:0;
   padding-top:var(--s-4); border-top:1px solid var(--line-warm);
 }
+
+/* ==========================================================================
+   CONNECTION MAP
+   --------------------------------------------------------------------------
+   Shows how Swifts AI sits between where customers reach you and where the
+   work lands. Pure CSS: the connectors are pseudo-element rules, so there is
+   no SVG, no canvas and nothing to load or keep in sync.
+
+   The three nodes of a connector are staggered in size, not identical. Three
+   equal boxes with three equal arrows is the diagram equivalent of the
+   twelve-identical-cards tell.
+   ========================================================================== */
+.wire{
+  display:flex; flex-direction:column; align-items:stretch;
+  gap:0; margin-bottom:var(--s-8);
+}
+
+/* --- one row of endpoint chips ------------------------------------------- */
+.wire__row{display:flex; flex-direction:column; gap:var(--s-3)}
+.wire__label{
+  font-size:var(--t-xs); font-weight:500; color:#8b967f;
+}
+.wire__nodes{
+  list-style:none; margin:0; padding:0;
+  display:flex; flex-wrap:wrap; gap:var(--s-2);
+}
+.wire__node{
+  padding:.5em .95em; border-radius:var(--radius-pill);
+  border:1px solid var(--line-mid); background:rgba(255,255,255,.04);
+  color:#d6ddcd; font-size:var(--t-sm);
+  transition:border-color .18s var(--ease), color .18s var(--ease);
+}
+.wire__node:hover{border-color:var(--brand); color:#fff}
+
+/* --- the connector: three rules that read as a joining line, not an arrow -- */
+.wire__stem{
+  align-self:center; display:flex; flex-direction:column; align-items:center;
+  gap:.28rem; padding-block:var(--s-3); position:relative;
+}
+.wire__stem i{
+  display:block; width:1px; background:var(--line-mid);
+  height:clamp(12px,1.6vw,20px);
+}
+/* the middle rule is the brand one, so the eye follows the flow */
+.wire__stem i:nth-child(2){background:var(--brand); width:2px; border-radius:2px}
+
+/* --- the hub: the only filled node, so it reads as the centre ------------- */
+.wire__hub{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:var(--s-4) var(--s-6);
+  padding:clamp(1.1rem,1rem + 1vw,1.6rem) clamp(1.2rem,1rem + 1.6vw,2rem);
+  border-radius:var(--radius-card);
+  background:var(--brand); color:var(--ink);
+  border:1px solid var(--brand);
+}
+.wire__hub b{
+  display:block; font-family:var(--font-display); font-weight:500;
+  font-size:var(--t-2xl); letter-spacing:-.02em; line-height:1.1;
+}
+.wire__hub span{font-size:var(--t-sm); color:#33401f; display:block; margin-top:.25rem}
+.wire__hub-roles{
+  list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:var(--s-2);
+}
+.wire__hub-roles li{
+  font-size:var(--t-xs); font-weight:600; letter-spacing:0;
+  padding:.34em .7em; border-radius:var(--radius-pill);
+  background:rgba(14,20,10,.14); color:#20290f;
+}
+
+@media (min-width:820px){
+  /* On wide screens the endpoints flank the hub instead of stacking above and
+     below it, which is what a connection actually looks like. */
+  .wire{
+    display:grid; align-items:center;
+    grid-template-columns:minmax(0,.9fr) 72px minmax(0,1.35fr) 72px minmax(0,.9fr);
+  }
+  .wire__row{grid-row:1}
+  .wire__row:first-child{grid-column:1; text-align:right}
+  .wire__row:first-child .wire__nodes{justify-content:flex-end}
+  .wire__stem{grid-row:1; align-self:center; padding-block:0;
+    flex-direction:row; gap:.28rem}
+  .wire__stem i{height:1px; width:clamp(12px,1.6vw,20px)}
+  .wire__stem i:nth-child(2){width:clamp(18px,2.4vw,30px); height:2px}
+  .wire__hub{grid-row:1; grid-column:3; flex-direction:column; align-items:flex-start;
+    gap:var(--s-3)}
+  .wire__row:last-child{grid-column:5}
+  .wire__stem:first-of-type{grid-column:2}
+  .wire__stem:last-of-type{grid-column:4}
+  .wire__hub-roles{width:100%}
+}
 .service__items p{color:var(--body); font-size:var(--t-sm); line-height:1.62; margin:0; max-width:62ch}
 .badge{
   display:inline-block; padding:.28em .75em; border-radius:var(--radius-pill);
@@ -646,6 +752,13 @@ img.custom-logo{
 .cta h2{color:#0e140a; margin-bottom:var(--s-3); letter-spacing:-.032em}
 .cta p{color:#1e2a10; max-width:52ch; margin-inline:auto; font-size:var(--t-lg)}
 .cta .btn-row{justify-content:center; margin-top:var(--s-6)}
+/* On the lime CTA band, .btn--primary is lime-on-lime: 1.00:1, an invisible
+   button. .btn--dark renders as ink-on-lime (8.64:1) in the same position, so
+   the band recolours both buttons rather than each one carrying two palettes. */
+.cta .btn--primary{background:var(--ink); color:#fff}
+.cta .btn--primary:hover{background:var(--ink-2); color:#fff}
+.cta .btn--on-dark{border-color:rgba(14,20,10,.28); color:var(--ink); background:transparent}
+.cta .btn--on-dark:hover{border-color:var(--ink); background:rgba(14,20,10,.06); color:var(--ink)}
 
 /* ==========================================================================
    12. FOOTER
@@ -713,6 +826,9 @@ img.custom-logo{
 .page-hero h1{color:#fff; margin-bottom:var(--s-4); font-size:var(--t-3xl);
   letter-spacing:-.015em; line-height:1.04}
 .page-hero p{color:#a9b49f; max-width:60ch; font-size:var(--t-lg)}
+/* The eyebrow is dark green for light bands, which is 2.96:1 on this near-black
+   band. Recoloured to the lime that already passes on ink (8.64:1). */
+.page-hero .eyebrow{color:var(--brand)}
 .page-hero .wrap{max-width:var(--maxw-wide)}
 .pagination{display:flex;gap:var(--s-3);justify-content:center;margin-top:var(--s-7)}
 .alignwide{max-width:1320px;margin-inline:auto}

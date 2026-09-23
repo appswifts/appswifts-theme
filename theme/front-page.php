@@ -106,6 +106,92 @@ $appswifts_integrations = [
   </div>
 </section>
 
+<?php
+/**
+ * Connection map + build timeline.
+ *
+ * Two visual devices, both pure CSS. The map answers "how does it connect to
+ * my website and my CMS", and the rail answers "how fast". No SVG, no canvas,
+ * nothing to load — the connector rules are pseudo-elements.
+ *
+ * Skipped: a mock browser window showing a built site. It would be a fake
+ * screenshot, which is the tell we spent two passes removing. Add a real
+ * capture here once there is one.
+ */
+?>
+<section class="section section--dark">
+  <div class="wrap">
+    <div class="int__head">
+      <span class="eyebrow"><?php esc_html_e('How it connects', 'appswifts'); ?></span>
+      <h2><?php esc_html_e('It works through your site, your CMS and your inbox', 'appswifts'); ?></h2>
+      <p class="lead"><?php esc_html_e('Nobody has to learn another app. Swifts AI reaches into the tools you already run, and the work comes back to where you already look for it.', 'appswifts'); ?></p>
+    </div>
+
+    <div class="wire">
+
+      <div class="wire__row">
+        <span class="wire__label"><?php esc_html_e('Where customers reach you', 'appswifts'); ?></span>
+        <ul class="wire__nodes">
+          <?php foreach (['Website', 'WhatsApp', 'Instagram', 'Email', 'Facebook'] as $n) : ?>
+            <li class="wire__node"><?php echo esc_html($n); ?></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+
+      <div class="wire__stem" aria-hidden="true"><i></i><i></i><i></i></div>
+
+      <div class="wire__hub">
+        <div>
+          <b><?php esc_html_e('Swifts AI', 'appswifts'); ?></b>
+          <span><?php esc_html_e('One private workspace, trained on your business only', 'appswifts'); ?></span>
+        </div>
+        <ul class="wire__hub-roles">
+          <li><?php esc_html_e('Drafts', 'appswifts'); ?></li>
+          <li><?php esc_html_e('Answers', 'appswifts'); ?></li>
+          <li><?php esc_html_e('Reads', 'appswifts'); ?></li>
+          <li><?php esc_html_e('Publishes', 'appswifts'); ?></li>
+        </ul>
+      </div>
+
+      <div class="wire__stem" aria-hidden="true"><i></i><i></i><i></i></div>
+
+      <div class="wire__row">
+        <span class="wire__label"><?php esc_html_e('Where the work lands', 'appswifts'); ?></span>
+        <ul class="wire__nodes">
+          <?php foreach (['WordPress CMS', 'Gmail', 'Calendar', 'Google Sheets', 'Stripe'] as $n) : ?>
+            <li class="wire__node"><?php echo esc_html($n); ?></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+
+    </div>
+
+    <ol class="steps steps--dark">
+      <?php
+      // Reuses the numbered rail from the Why us section rather than a new
+      // component: same shape, same counter, already tuned for the ink band.
+      foreach ([
+          ['Brief', 'Give it two lines and your domain'],
+          ['Pages drafted', 'Home, services, pricing, contact'],
+          ['Tools wired', 'Forms, inbox, calendar, WhatsApp'],
+          ['Live', 'You review, then it publishes'],
+      ] as [$t, $d]) :
+          ?>
+        <li>
+          <div>
+            <h3><?php echo esc_html($t); ?></h3>
+            <p><?php echo esc_html($d); ?></p>
+          </div>
+        </li>
+      <?php endforeach; ?>
+    </ol>
+
+    <p class="int__note">
+      <?php esc_html_e('The same workspace does the rest of the week: quotations, tenders, follow-ups, and the blog post you keep putting off.', 'appswifts'); ?>
+    </p>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap">
     <div style="max-width:46rem;margin-bottom:var(--s-7)">
