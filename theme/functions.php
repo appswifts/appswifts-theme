@@ -30,7 +30,7 @@ add_action('wp_enqueue_scripts', function (): void {
 // Preload the three variable fonts: removes the invisible-text flash without a plugin.
 add_action('wp_head', function (): void {
     $uri = get_stylesheet_directory_uri() . '/assets/fonts/';
-    foreach (['dmsans-var.woff2', 'inter-var.woff2'] as $f) {
+    foreach (['googlesans-var.woff2', 'inter-var.woff2'] as $f) {
         printf(
             '<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
             esc_url($uri . $f)

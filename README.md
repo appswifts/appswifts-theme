@@ -7,12 +7,20 @@ AppSwifts site. No page builder, no plugins, one stylesheet, CSS-only interactio
 
 - **0 plugins, 0 Elementor.** Native WP blocks, one `style.css`, inline SVG icons.
 - **CSS-only hamburger** (`:checked` + `grid-template-rows: 0fr → 1fr`) instead of a JS menu.
-- **Variable fonts** — DM Sans (display) + Inter (body), self-hosted in
-  `theme/assets/fonts/` so a deploy is self-contained. 4 `@font-face` rules, ~18 KB CSS
+- **Variable fonts** — Google Sans (display + body) + Inter (fallback), self-hosted in
+  `theme/assets/fonts/` so a deploy is self-contained. 3 `@font-face` rules, ~18 KB CSS
   (the previous Elementor site shipped 54 rules / 191 KB).
-- **Google Sans was requested and is NOT used.** It is proprietary and not licensed for
-  third-party web embedding. DM Sans is the closest open substitute. Swap is one line:
-  `--font-display` in `style.css`.
+- **Google Sans, self-hosted from Google's own CDN** (`assets/fonts/googlesans-var.woff2`,
+  variable `wght 400–700`, Latin subset, 36 KB). Grab the URL from
+  `https://fonts.googleapis.com/css2?family=Google+Sans:wght@400..700` — pick the block whose
+  `unicode-range` starts `U+0000-00FF` (the Latin one) and download that `src:`.
+  ⚠️ **Google Sans is proprietary** — it is *not* in the OFL Google Fonts catalogue and
+  Google does not license it for third-party web embedding. It IS served from
+  `fonts.googleapis.com`, so this works, but the licence is Google's brand font, not an open
+  one. `productsans`/`Google Sans Text` are *not* served (the text face 404s to Open Sans).
+  **To revert to a licensed font, change the two `--font-*` tokens to `"DM Sans"` and swap the
+  `@font-face` back to `dmsans-var.woff2` (both still in the repo history).** One file, 3 lines.
+  Nothing else references the family — every rule goes through `var(--font-display)`.
 - **Anti-slop rules:** headings capped at weight 600 (hierarchy comes from size, not weight),
   card hover changes the *border* to brand lime rather than lifting (a shadow is invisible
   on a near-black surface), CTA is flat `#86c13b` (a gradient muddies a single brand colour),

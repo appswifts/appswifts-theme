@@ -1,16 +1,38 @@
-Fonts bundled in theme/assets/fonts/ — SIL Open Font License 1.1.
+Fonts bundled in theme/assets/fonts/
+====================================
 
 ================================================================================
-DM Sans  (dmsans-var.woff2)
+1. Google Sans  (googlesans-var.woff2)   --  PROPRIETARY, NOT OFL
 ================================================================================
-Copyright 2014 The DM Sans Project Authors (https://github.com/googlefonts/dm-fonts)
+Google Sans is Google's own brand typeface. It is NOT part of the open Google
+Fonts library, is NOT licensed under the SIL Open Font License, and Google does
+not publish it for third-party web embedding.
 
-This Font Software is licensed under the SIL Open Font License, Version 1.1.
-This license is copied below, and is also available with a FAQ at:
-https://scripts.sil.org/OFL
+It is nevertheless served publicly from Google's font CDN, which is where this
+file was downloaded from:
+    https://fonts.googleapis.com/css2?family=Google+Sans:wght@400..700
 
+Using it on a site you do not own may infringe Google's rights in the typeface,
+and Google can stop serving or change the font at any time. This is a design
+choice made knowingly, on request.
 
------------------------------------------------------------
+To revert to a fully open font, set the two --font-* tokens in theme/style.css
+to "DM Sans" and point the @font-face back at dmsans-var.woff2. DM Sans was
+removed from this directory when Google Sans was adopted; recover it with
+    git log --all --full-history -- 'theme/assets/fonts/dmsans-var.woff2'
+DM Sans and Inter are the open substitutes: both are geometric humanist sans
+with the same low stroke contrast as Google Sans.
+
+================================================================================
+2. Inter  (inter-var.woff2, inter-var-italic.woff2)   --  SIL OFL 1.1
+================================================================================
+Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
+Licensed under the SIL Open Font License, Version 1.1, reproduced below.
+
+Note: Inter is retained as the metric fallback in --font-body / --font-display
+and its @font-face rule is still declared, so body copy renders correctly even
+if googlesans-var.woff2 is unavailable.
+
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 -----------------------------------------------------------
 
@@ -98,7 +120,7 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
 ================================================================================
-Inter    (inter-var.woff2, inter-var-italic.woff2)
+Inter    (inter-var.woff2, inter-var-italic.woff2, inter-var-italic.woff2)
 ================================================================================
 Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
 

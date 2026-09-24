@@ -42,12 +42,14 @@ Text Domain: appswifts
   --line-warm:    #e8dfd5;
 
   /* type
-     Display face: DM Sans — the closest openly-licensed match to Google Sans
-     Display (geometric, low contrast, same humanist construction).
-     Body face: Inter, which mirrors Google Sans Text.
-     To swap in licensed Google Sans later, change --font-display only. */
-  --font-body:    Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-display: "DM Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+     Google Sans, self-hosted (assets/fonts/googlesans-var.woff2, variable 400-700,
+     Latin subset). Both display AND body use it: Google serves Google Sans Text
+     only as a dev-only face (requesting it silently returns Open Sans), so the
+     same family covers both roles. Inter is kept as the metric fallback and its
+     @font-face rule is retained, so body text renders even if the file 404s.
+     Weights used across the sheet are 400/500/520/600, inside the 400-700 range. */
+  --font-body:    "Google Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Google Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono:    ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* fluid scale — bigger and more contrast between levels.
@@ -103,8 +105,8 @@ Text Domain: appswifts
   src:url(assets/fonts/inter-var-italic.woff2) format("woff2");
 }
 @font-face{
-  font-family:"DM Sans"; font-style:normal; font-weight:100 900; font-display:swap;
-  src:url(assets/fonts/dmsans-var.woff2) format("woff2");
+  font-family:"Google Sans"; font-style:normal; font-weight:400 700; font-display:swap;
+  src:url(assets/fonts/googlesans-var.woff2) format("woff2");
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 

@@ -11,9 +11,9 @@ done
 echo
 echo "=== FONTS ACTUALLY SERVED ==="
 curl -s -m 25 -A "$UA" https://new.appswifts.space/wp-content/themes/appswifts/style.css -o /tmp/t.css
-grep -oE 'font-family:[^;]*' /tmp/t.css | grep -iE 'DM Sans|Inter' | sort -u | sed 's/^/  /'
+grep -oE 'font-family:[^;]*' /tmp/t.css | grep -iE 'Google Sans|Inter' | sort -u | sed 's/^/  /'
 echo "  declared families: $(grep -oE '@font-face' /tmp/t.css | wc -l) @font-face rules"
-for f in dmsans-var.woff2 inter-var.woff2 inter-var-italic.woff2; do
+for f in googlesans-var.woff2 inter-var.woff2 inter-var-italic.woff2; do
   code=$(curl -s -o /dev/null -w "%{http_code}" -m 20 -A "$UA" "https://new.appswifts.space/wp-content/themes/appswifts/assets/fonts/$f")
   size=$(curl -s -o /dev/null -w "%{size_download}" -m 20 -A "$UA" "https://new.appswifts.space/wp-content/themes/appswifts/assets/fonts/$f")
   printf "  %-24s HTTP %s  %s bytes\n" "$f" "$code" "$size"
