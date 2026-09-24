@@ -27,7 +27,9 @@ add_action('wp_enqueue_scripts', function (): void {
     wp_add_inline_style('appswifts', ':root{--wp--preset--color--brand:#86c13b;--wp--preset--color--ink:#0e140a;}');
 });
 
-// Preload the three variable fonts: removes the invisible-text flash without a plugin.
+// Preload the two variable fonts the first paint needs: removes the invisible-text
+// flash without a plugin. (Inter italic is declared but not preloaded — it is only
+// used by decorative empty <i> tags, so a late swap is invisible.)
 add_action('wp_head', function (): void {
     $uri = get_stylesheet_directory_uri() . '/assets/fonts/';
     foreach (['googlesans-var.woff2', 'inter-var.woff2'] as $f) {
